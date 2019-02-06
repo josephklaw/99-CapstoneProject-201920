@@ -10,7 +10,7 @@
     -- Lower-level code to interact with the EV3 robot library.
 
   Author:  Your professors (for the framework and lower-level code)
-    and oseph Law, Aaryan Khatri, and Lucas D'Alesio.
+    and Joseph Law, Aaryan Khatri, and Lucas D'Alesio.
   Winter term, 2018-2019.
 """
 
