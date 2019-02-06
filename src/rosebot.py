@@ -64,7 +64,7 @@ class DriveSystem(object):
         """
         self.sensor_system = sensor_system
         self.left_motor = Motor('B')
-        self.right_motor = Motor('C')
+        self.right_motor = Motor('D')
 
         self.wheel_circumference = 1.3 * math.pi
 
