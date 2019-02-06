@@ -193,7 +193,7 @@ class ArmAndClaw(object):
     def raise_arm(self):
         """ Raises the Arm until its touch sensor is pressed. """
 
-        self.motor.turn_on()
+        self.motor.turn_on(100)
         while True:
             if self.touch_sensor.is_pressed() == True:
                 break
