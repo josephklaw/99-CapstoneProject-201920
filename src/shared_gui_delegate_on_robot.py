@@ -3,7 +3,7 @@
   This code is the delegate for handling messages from the shared GUI.
 
   Author:  Your professors (for the framework)
-    and PUT_YOUR_NAMES_HERE.
+    and Joseph Law, Aaryan Khatri, and Lucas D'Alesio.
   Winter term, 2018-2019.
 """
 
