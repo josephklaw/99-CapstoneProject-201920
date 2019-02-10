@@ -33,6 +33,7 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
+        self.sound_system = SoundSystem()
 
 
 ###############################################################################
@@ -87,8 +88,6 @@ class DriveSystem(object):
         """
         start = time.time()
         self.go(speed, speed)
-        # Note: using   time.sleep   to control the time to run is better.
-        # We do it with a WHILE loop here for pedagogical reasons.
         while True:
             if time.time() - start >= seconds:
                 self.stop()
@@ -99,14 +98,23 @@ class DriveSystem(object):
         for the given number of inches, using the approximate
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
-
+        seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
+        seconds = abs(inches * seconds_per_inch_at_100 / speed)
+        self.go_straight_for_seconds(seconds, speed)
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of inches,
         using the encoder (degrees traveled sensor) built into the motors.
         """
-
+        inches_per_degree = self.left_motor.WheelCircumference / 360
+        start = self.left_motor.get_position()
+        while True:
+            self.left_motor.turn_on(speed)
+            self.right_motor.turn_on(speed)
+            if abs((self.left_motor.get_position() - start) * inches_per_degree) >= inches:
+                self.stop()
+                break
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
     # -------------------------------------------------------------------------
@@ -230,11 +238,19 @@ class ArmAndClaw(object):
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
         """
-        self.motor.turn_on(100)
-        while True:
-            if abs(self.motor.get_position()) >= desired_arm_position:
-                self.motor.turn_off()
-                break
+        starting_position = self.motor.get_position()
+        if starting_position < desired_arm_position:
+            self.motor.turn_on(100)
+            while True:
+                if abs(self.motor.get_position()) >= desired_arm_position:
+                    self.motor.turn_off()
+                    break
+        elif starting_position > desired_arm_position:
+            self.motor.turn_on(-100)
+            while True:
+                if abs(self.motor.get_position()) <= desired_arm_position:
+                    self.motor.turn_off()
+                    break
     def lower_arm(self):
         """
         Lowers the Arm until it is all the way down, i.e., position 0.

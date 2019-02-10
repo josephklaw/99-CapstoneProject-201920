@@ -113,8 +113,7 @@ def get_arm_frame(window, mqtt_sender):
     raise_arm_button["command"] = lambda: handle_raise_arm(mqtt_sender)
     lower_arm_button["command"] = lambda: handle_lower_arm(mqtt_sender)
     calibrate_arm_button["command"] = lambda: handle_calibrate_arm(mqtt_sender)
-    move_arm_button["command"] = lambda: handle_move_arm_to_position(
-        position_entry, mqtt_sender)
+    move_arm_button["command"] = lambda: handle_move_arm_to_position(position_entry, mqtt_sender)
 
     return frame
 
@@ -145,7 +144,90 @@ def get_control_frame(window, mqtt_sender):
     exit_button["command"] = lambda: handle_exit(mqtt_sender)
 
     return frame
+def get_drive_system(window, mqtt_sender):
+    """
+    Constructs and returns a frame on the given window, where the frame has
+    Button objects to exit this program and/or the robot's program (via MQTT).
+      :type  window:       ttk.Frame | ttk.Toplevel
+      :type  mqtt_sender:  com.MqttClient
+    """
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
 
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Drive System")
+    forward_for_seconds = ttk.Button(frame, text="Seconds")
+    forward_for_inches_time = ttk.Button(frame, text="Inches (Time)")
+    forward_for_inches_sensor = ttk.Button(frame,text="Inches (Sensor")
+    seconds_entry = ttk.Entry(frame, width=8)
+    inches_entry_time = ttk.Entry(frame,width = 8)
+    inches_entry_sensor = ttk.Entry(frame,width=8)
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=1)
+    forward_for_seconds.grid(row=2, column=0)
+    seconds_entry.grid(row=1,column=0)
+    forward_for_inches_time.grid(row=2,column=1)
+    inches_entry_time.grid(row=1,column=1)
+    forward_for_inches_sensor.grid(row=2,column=2)
+    inches_entry_sensor.grid(row=1,column=2)
+
+
+    # Set the Button callbacks:
+    forward_for_seconds["command"] = lambda: handle_drive_forward_for_time(seconds_entry, mqtt_sender)
+    forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
+    forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender)
+
+    return frame
+
+def get_sound_system(window, mqtt_sender):
+    """
+    Constructs and returns a frame on the given window, where the frame has
+    Button objects to exit this program and/or the robot's program (via MQTT).
+      :type  window:       ttk.Frame | ttk.Toplevel
+      :type  mqtt_sender:  com.MqttClient
+    """
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Sound System")
+    beep_label = ttk.Label(frame,text="# of Times to Beep")
+    beep_button = ttk.Button(frame, text="Beep")
+    beep_entry = ttk.Entry(frame,width = 8)
+    frequency_label = ttk.Label(frame,text="Frequency of Tone")
+    frequency_entry = ttk.Entry(frame,width=8)
+    tone_button = ttk.Button(frame,text="Tone")
+    duration_label = ttk.Label(frame,text="Duration of Tone")
+    duration_entry = ttk.Entry(frame,width=8)
+    phrase_label = ttk.Label(frame,text="Phrase")
+    phrase_entry = ttk.Entry(frame,width=20)
+    speak_button = ttk.Button(frame,text="Speak")
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=2)
+    beep_label.grid(row=1,column=0)
+    beep_button.grid(row=3, column=0)
+    beep_entry.grid(row=2,column=0)
+    frequency_label.grid(row=1,column=1)
+    frequency_entry.grid(row=2,column=1)
+    tone_button.grid(row=2,column=2)
+    duration_label.grid(row=1,column=3)
+    duration_entry.grid(row=2,column=3)
+    phrase_label.grid(row=1,column=4)
+    phrase_entry.grid(row=2,column=4)
+    speak_button.grid(row=3,column=4)
+
+
+
+    # Set the Button callbacks:
+    beep_button["command"] = lambda: handle_beep(beep_entry, mqtt_sender)
+    # forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
+    # forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender)
+
+    return frame
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -267,3 +349,22 @@ def handle_exit(mqtt_sender):
     Then exit this program.
       :type mqtt_sender: com.MqttClient
     """
+###############################################################################
+# Handlers for Buttons in the Drive System frame.
+###############################################################################
+def handle_drive_forward_for_time(seconds_entry,mqtt_sender):
+    print("Drive forward for time",seconds_entry.get())
+    mqtt_sender.send_message("drive_forward_for_time", [seconds_entry.get()])
+def handle_drive_forward_for_inches_time(inches_entry_time,mqtt_sender):
+    print("Drive forward for inches using time",inches_entry_time.get())
+    mqtt_sender.send_message("drive_forward_for_inches_time", [inches_entry_time.get()])
+def handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender):
+    print("Drive forward for inches using time",inches_entry_sensor.get())
+    mqtt_sender.send_message("drive_forward_for_inches_sensor", [inches_entry_sensor.get()])
+
+###############################################################################
+# Handlers for Buttons in the Sound System frame.
+###############################################################################
+def handle_beep(beep_entry,mqtt_sender):
+    print("Beep!",beep_entry.get())
+    mqtt_sender.send_message("sound_beep", [beep_entry.get()])
