@@ -226,7 +226,6 @@ def get_sound_system(window, mqtt_sender):
     beep_button["command"] = lambda: handle_beep(beep_entry, mqtt_sender)
     tone_button["command"] = lambda: handle_tone(frequency_entry,duration_entry,mqtt_sender)
     speak_button["command"] = lambda: handle_speak(phrase_entry,mqtt_sender)
-    # forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender)
 
     return frame
 ###############################################################################
