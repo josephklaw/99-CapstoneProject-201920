@@ -342,7 +342,7 @@ def handle_quit(mqtt_sender):
     Tell the robot's program to stop its loop (and hence quit).
       :type  mqtt_sender:  com.MqttClient
     """
-
+    mqtt_sender.send_message("stop")
 
 def handle_exit(mqtt_sender):
     """
