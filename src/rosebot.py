@@ -33,7 +33,10 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
-        self.sound_system = SoundSystem()
+        self.beeper = Beeper()
+        self.tone = ToneMaker()
+        self.speak = SpeechMaker()
+
 
 
 ###############################################################################
@@ -89,30 +92,31 @@ class DriveSystem(object):
         start = time.time()
         self.go(speed, speed)
         while True:
-            if time.time() - start >= seconds:
+            if time.time() - start >= int(seconds):
                 self.stop()
                 break
-    def go_straight_for_inches_using_time(self, inches, speed):
+    def go_straight_for_inches_using_time(self, inches):
         """
         Makes the robot go straight at the given speed
         for the given number of inches, using the approximate
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
         seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
-        seconds = abs(inches * seconds_per_inch_at_100 / speed)
-        self.go_straight_for_seconds(seconds, speed)
-    def go_straight_for_inches_using_encoder(self, inches, speed):
+        seconds = abs(int(inches) * int(seconds_per_inch_at_100) / int(100))
+        self.go_straight_for_seconds(seconds, 100)
+    def go_straight_for_inches_using_encoder(self, inches):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of inches,
         using the encoder (degrees traveled sensor) built into the motors.
         """
-        inches_per_degree = self.left_motor.WheelCircumference / 360
+        WheelCircumference = 1.3 * math.pi
+        inches_per_degree = int(WheelCircumference) / 360
         start = self.left_motor.get_position()
         while True:
-            self.left_motor.turn_on(speed)
-            self.right_motor.turn_on(speed)
-            if abs((self.left_motor.get_position() - start) * inches_per_degree) >= inches:
+            self.left_motor.turn_on(100)
+            self.right_motor.turn_on(100)
+            if abs((self.left_motor.get_position() - start) * inches_per_degree) >= float(inches):
                 self.stop()
                 break
     # -------------------------------------------------------------------------

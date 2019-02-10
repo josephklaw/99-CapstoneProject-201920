@@ -28,9 +28,9 @@ class DelegateThatReceives(object):
     def drive_forward_for_time(self,time):
         self.robot.drive_system.go_straight_for_seconds(time,100)
     def drive_forward_for_inches_time(self,inches):
-        self.robot.drive_system.go_straight_for_inches_using_time(inches,100)
+        self.robot.drive_system.go_straight_for_inches_using_time(inches)
     def drive_forward_for_inches_sensor(self,inches):
-        self.robot.drive_system.go_straight_for_inches_using_encoder(inches,100)
+        self.robot.drive_system.go_straight_for_inches_using_encoder(inches)
     def sound_beep(self,beeps):
         for k in range(beeps):
             self.robot.sound_system.beeper.beep()

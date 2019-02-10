@@ -224,7 +224,8 @@ def get_sound_system(window, mqtt_sender):
 
     # Set the Button callbacks:
     beep_button["command"] = lambda: handle_beep(beep_entry, mqtt_sender)
-    # forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
+    tone_button["command"] = lambda: handle_tone(frequency_entry,duration_entry,mqtt_sender)
+    speak_button["command"] = lambda: handle_speak(phrase_entry,mqtt_sender)
     # forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender)
 
     return frame
@@ -367,4 +368,10 @@ def handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender):
 ###############################################################################
 def handle_beep(beep_entry,mqtt_sender):
     print("Beep!",beep_entry.get())
-    mqtt_sender.send_message("sound_beep", [beep_entry.get()])
+    #mqtt_sender.send_message("sound_beep", [beep_entry.get()])
+def handle_tone(frequency_entry,duration_entry,mqtt_sender):
+    print("Tone",frequency_entry.get(),duration_entry.get())
+    #mqtt_sender.send_message("sound_tone",frequency_entry.get(),duration_entry.get())
+def handle_speak(phrase_entry,mqtt_sender):
+    print("Speak",phrase_entry.get())
+    #mqtt_sender.send_message("")
