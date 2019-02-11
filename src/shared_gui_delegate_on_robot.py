@@ -35,9 +35,9 @@ class DelegateThatReceives(object):
     def drive_forward_for_inches_sensor(self,inches):
         self.robot.drive_system.go_straight_for_inches_using_encoder(inches)
     def sound_beep(self,beeps):
-        for k in range(beeps):
+        for k in range(int(beeps)):
             self.robot.sound_system.beeper.beep().wait()
     def sound_tone(self,frequency,duration):
-        self.robot.sound_system.tone_maker(frequency,duration)
+        self.robot.sound_system.tone_maker.play_tone(frequency,duration)
     def sound_speak(self,message):
         self.robot.sound_system.speech_maker.speak(message)
