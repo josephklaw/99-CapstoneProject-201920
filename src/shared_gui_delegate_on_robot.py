@@ -11,7 +11,7 @@ class DelegateThatReceives(object):
     def __init__(self,robot):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
-
+        self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed),
                                    int(right_wheel_speed))
@@ -25,7 +25,7 @@ class DelegateThatReceives(object):
         self.robot.arm_and_claw.calibrate_arm()
     def move_arm_to_position(self,desired_position):
         self.robot.arm_and_claw.move_arm_to_position(desired_position)
-    def quit(self):
+    def is_quit(self):
         print("Got quit")
         self.is_time_to_stop = True
     def drive_forward_for_time(self,time):
