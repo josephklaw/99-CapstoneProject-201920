@@ -361,7 +361,7 @@ def handle_exit(mqtt_sender):
 def handle_drive_forward_for_time(seconds_entry,speed_entry,mqtt_sender):
     print("Drive forward for time",seconds_entry.get())
     mqtt_sender.send_message("drive_forward_for_time", [seconds_entry.get(),speed_entry.get()])
-def handle_drive_forward_for_inches_time(inches_entry_time,speed_entry,mqtt_sender):
+def handle_drive_forward_for_inches_time(inches_entry_time,mqtt_sender):
     print("Drive forward for inches using time",inches_entry_time.get())
     mqtt_sender.send_message("drive_forward_for_inches_time", [inches_entry_time.get()])
 def handle_drive_forward_for_inches_sensor(inches_entry_sensor,speed_entry,mqtt_sender):

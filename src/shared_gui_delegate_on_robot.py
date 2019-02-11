@@ -28,12 +28,12 @@ class DelegateThatReceives(object):
     def is_quit(self):
         print("Got quit")
         self.is_time_to_stop = True
-    def drive_forward_for_time(self,time):
-        self.robot.drive_system.go_straight_for_seconds(time,100)
+    def drive_forward_for_time(self,time,speed):
+        self.robot.drive_system.go_straight_for_seconds(time,speed)
     def drive_forward_for_inches_time(self,inches):
         self.robot.drive_system.go_straight_for_inches_using_time(inches)
-    def drive_forward_for_inches_sensor(self,inches):
-        self.robot.drive_system.go_straight_for_inches_using_encoder(inches)
+    def drive_forward_for_inches_sensor(self,inches,speed):
+        self.robot.drive_system.go_straight_for_inches_using_encoder(inches,speed)
     def sound_beep(self,beeps):
         for k in range(int(beeps)):
             self.robot.sound_system.beeper.beep().wait()
