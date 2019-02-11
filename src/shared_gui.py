@@ -341,7 +341,8 @@ def handle_quit(mqtt_sender):
     Tell the robot's program to stop its loop (and hence quit).
       :type  mqtt_sender:  com.MqttClient
     """
-    mqtt_sender.send_message("stop")
+    print("quit")
+    mqtt_sender.send_message("quit")
 
 def handle_exit(mqtt_sender):
     """
@@ -349,6 +350,9 @@ def handle_exit(mqtt_sender):
     Then exit this program.
       :type mqtt_sender: com.MqttClient
     """
+    print("Exit")
+    handle_quit(mqtt_sender)
+    exit()
 ###############################################################################
 # Handlers for Buttons in the Drive System frame.
 ###############################################################################
@@ -367,10 +371,10 @@ def handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender):
 ###############################################################################
 def handle_beep(beep_entry,mqtt_sender):
     print("Beep!",beep_entry.get())
-    #mqtt_sender.send_message("sound_beep", [beep_entry.get()])
+    mqtt_sender.send_message("sound_beep", [beep_entry.get()])
 def handle_tone(frequency_entry,duration_entry,mqtt_sender):
     print("Tone",frequency_entry.get(),duration_entry.get())
-    #mqtt_sender.send_message("sound_tone",frequency_entry.get(),duration_entry.get())
+    mqtt_sender.send_message("sound_tone",[frequency_entry.get()],[duration_entry.get()])
 def handle_speak(phrase_entry,mqtt_sender):
     print("Speak",phrase_entry.get())
-    #mqtt_sender.send_message("")
+    mqtt_sender.send_message("sound_speak",[phrase_entry.get()])

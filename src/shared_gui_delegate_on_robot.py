@@ -25,6 +25,9 @@ class DelegateThatReceives(object):
         self.robot.arm_and_claw.calibrate_arm()
     def move_arm_to_position(self,desired_position):
         self.robot.arm_and_claw.move_arm_to_position(desired_position)
+    def quit(self):
+        print("Got quit")
+        self.is_time_to_stop = True
     def drive_forward_for_time(self,time):
         self.robot.drive_system.go_straight_for_seconds(time,100)
     def drive_forward_for_inches_time(self,inches):
@@ -33,6 +36,8 @@ class DelegateThatReceives(object):
         self.robot.drive_system.go_straight_for_inches_using_encoder(inches)
     def sound_beep(self,beeps):
         for k in range(beeps):
-            self.robot.sound_system.beeper.beep()
-    # def sound_tone(self,frequency,duration):
-    #     self.robot.sound_system.tone_maker(frequency,duration)
+            self.robot.sound_system.beeper.beep().wait()
+    def sound_tone(self,frequency,duration):
+        self.robot.sound_system.tone_maker(frequency,duration)
+    def sound_speak(self,message):
+        self.robot.sound_system.speech_maker.speak(message)
