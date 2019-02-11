@@ -163,6 +163,7 @@ def get_drive_system(window, mqtt_sender):
     seconds_entry = ttk.Entry(frame, width=8)
     inches_entry_time = ttk.Entry(frame,width = 8)
     inches_entry_sensor = ttk.Entry(frame,width=8)
+    speed_entry = ttk.Entry(frame,width=8)
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
@@ -172,12 +173,13 @@ def get_drive_system(window, mqtt_sender):
     inches_entry_time.grid(row=1,column=1)
     forward_for_inches_sensor.grid(row=2,column=2)
     inches_entry_sensor.grid(row=1,column=2)
+    speed_entry.grid(row=3,column=1)
 
 
     # Set the Button callbacks:
-    forward_for_seconds["command"] = lambda: handle_drive_forward_for_time(seconds_entry, mqtt_sender)
+    forward_for_seconds["command"] = lambda: handle_drive_forward_for_time(seconds_entry, speed_entry, mqtt_sender)
     forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
-    forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender)
+    forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor, speed_entry, mqtt_sender)
 
     return frame
 
@@ -356,15 +358,15 @@ def handle_exit(mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Drive System frame.
 ###############################################################################
-def handle_drive_forward_for_time(seconds_entry,mqtt_sender):
+def handle_drive_forward_for_time(seconds_entry,speed_entry,mqtt_sender):
     print("Drive forward for time",seconds_entry.get())
-    mqtt_sender.send_message("drive_forward_for_time", [seconds_entry.get()])
-def handle_drive_forward_for_inches_time(inches_entry_time,mqtt_sender):
+    mqtt_sender.send_message("drive_forward_for_time", [seconds_entry.get(),speed_entry.get()])
+def handle_drive_forward_for_inches_time(inches_entry_time,speed_entry,mqtt_sender):
     print("Drive forward for inches using time",inches_entry_time.get())
     mqtt_sender.send_message("drive_forward_for_inches_time", [inches_entry_time.get()])
-def handle_drive_forward_for_inches_sensor(inches_entry_sensor,mqtt_sender):
+def handle_drive_forward_for_inches_sensor(inches_entry_sensor,speed_entry,mqtt_sender):
     print("Drive forward for inches using time",inches_entry_sensor.get())
-    mqtt_sender.send_message("drive_forward_for_inches_sensor", [inches_entry_sensor.get()])
+    mqtt_sender.send_message("drive_forward_for_inches_sensor", [inches_entry_sensor.get(),speed_entry.get()])
 
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.

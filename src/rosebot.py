@@ -98,13 +98,13 @@ class DriveSystem(object):
     def go_straight_for_inches_using_time(self, inches):
         """
         Makes the robot go straight at the given speed
-        for the given number of inches, using the approximate
+        for the given number of inches, using the approximatepyth
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
         seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
         seconds = abs(int(inches) * int(seconds_per_inch_at_100) / int(100))
-        self.go_straight_for_seconds(seconds, 100)
-    def go_straight_for_inches_using_encoder(self, inches):
+        self.go_straight_for_seconds(seconds,100)
+    def go_straight_for_inches_using_encoder(self, inches,speed):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of inches,
@@ -114,8 +114,8 @@ class DriveSystem(object):
         inches_per_degree = int(WheelCircumference) / 360
         start = self.left_motor.get_position()
         while True:
-            self.left_motor.turn_on(100)
-            self.right_motor.turn_on(100)
+            self.left_motor.turn_on(speed)
+            self.right_motor.turn_on(speed)
             if abs((self.left_motor.get_position() - start) * inches_per_degree) >= float(inches):
                 self.stop()
                 break
