@@ -231,20 +231,34 @@ class DriveSystem(object):
             Spins clockwise at the given speed until the heading to the Beacon
             is nonnegative.  Requires that the user turn on the Beacon.
             """
+            self.ir_beacon_sensor = InfraredBeaconSensor
+            self.go(speed, -speed)
+            while True:
+                if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
+                    break
+
 
         def spin_counterclockwise_until_beacon_heading_is_nonpositive(self, speed):
             """
             Spins counter-clockwise at the given speed until the heading to the Beacon
             is nonnegative.  Requires that the user turn on the Beacon.
             """
-
+            self.ir_beacon_sensor = InfraredBeaconSensor
+            self.go(-speed, speed)
+            while True:
+                if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
+                    break
         def go_straight_to_the_beacon(self, inches, speed):
             """
             Goes forward at the given speed until the robot is less than the
             given number of inches from the Beacon.
             Assumes that the Beacon is turned on and placed straight ahead.
             """
-
+            self.ir_beacon_sensor = InfraredBeaconSensor
+            self.go(speed, speed)
+            while True:
+                if self.ir_beacon_sensor.get_distance_to_beacon() < inches:
+                    break
 
         # -------------------------------------------------------------------------
         # Methods for driving that use the camera.
@@ -264,9 +278,9 @@ class DriveSystem(object):
 
             self.go(speed, -speed)
             while True:
-                height = self.sensor_system.camera.get_biggest_blob().height
-                width = self.sensor_system.camera.get_biggest_blob().width
-                area1 = height * width
+                height1 = self.sensor_system.camera.get_biggest_blob().height
+                width1 = self.sensor_system.camera.get_biggest_blob().width
+                area1 = height1 * width1
                 if area1 >= area:
                     self.stop()
                     break
@@ -279,9 +293,9 @@ class DriveSystem(object):
 
             self.go(-speed, speed)
             while True:
-                height = self.sensor_system.camera.get_biggest_blob().height
-                width = self.sensor_system.camera.get_biggest_blob().width
-                area1 = height * width
+                height1 = self.sensor_system.camera.get_biggest_blob().height
+                width1 = self.sensor_system.camera.get_biggest_blob().width
+                area1 = height1 * width1
                 if area1 >= area:
                     self.stop()
                     break
