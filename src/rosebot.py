@@ -245,6 +245,7 @@ class DriveSystem(object):
             Assumes that the Beacon is turned on and placed straight ahead.
             """
 
+
         # -------------------------------------------------------------------------
         # Methods for driving that use the camera.
         # -------------------------------------------------------------------------
@@ -253,7 +254,7 @@ class DriveSystem(object):
             Displays on the GUI the Blob data of the Blob that the camera sees
             (if any).
             """
-
+            print(self.sensor_system.camera.get_biggest_blob())
         def spin_clockwise_until_sees_object(self, speed, area):
             """
             Spins clockwise at the given speed until the camera sees an object
@@ -261,6 +262,14 @@ class DriveSystem(object):
             Requires that the user train the camera on the color of the object.
             """
 
+            self.go(speed, -speed)
+            while True:
+                height = self.sensor_system.camera.get_biggest_blob().height
+                width = self.sensor_system.camera.get_biggest_blob().width
+                area1 = height * width
+                if area1 >= area:
+                    self.stop()
+                    break
         def spin_counterclockwise_until_sees_object(self, speed, area):
             """
             Spins counter-clockwise at the given speed until the camera sees an object
@@ -268,6 +277,14 @@ class DriveSystem(object):
             Requires that the user train the camera on the color of the object.
             """
 
+            self.go(-speed, speed)
+            while True:
+                height = self.sensor_system.camera.get_biggest_blob().height
+                width = self.sensor_system.camera.get_biggest_blob().width
+                area1 = height * width
+                if area1 >= area:
+                    self.stop()
+                    break
 
 
 ###############################################################################
