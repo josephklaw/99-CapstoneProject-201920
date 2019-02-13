@@ -130,9 +130,10 @@ class DriveSystem(object):
         """
         self.go(int(speed),int(speed))
         while True:
-            if self.sensor_system.color_sensor.get_reflected_light_intensity() < int(intensity):
+            if self.sensor_system.color_sensor.get_reflected_light_intensity() <= int(intensity):
+                self.stop()
                 break
-        self.stop
+
     def go_straight_until_intensity_is_greater_than(self, intensity, speed):
         """
         Goes straight at the given speed until the intensity returned
@@ -140,9 +141,9 @@ class DriveSystem(object):
         """
         self.go(int(speed), int(speed))
         while True:
-            if self.sensor_system.color_sensor.get_reflected_light_intensity() > intensity:
+            if self.sensor_system.color_sensor.get_reflected_light_intensity() >= intensity:
                 break
-        self.stop
+        self.stop()
     def go_straight_until_color_is(self, color, speed):
         """
         Goes straight at the given speed until the color returned
