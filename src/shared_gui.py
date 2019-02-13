@@ -209,8 +209,7 @@ def get_drive_system(window, mqtt_sender):
 
 def get_sound_system(window, mqtt_sender):
     """
-    Constructs and returns a frame on the given window, where the frame has
-    Button objects to exit this program and/or the robot's program (via MQTT).
+    Constructs and returns a frame on the given window(via MQTT).
       :type  window:       ttk.Frame | ttk.Toplevel
       :type  mqtt_sender:  com.MqttClient
     """

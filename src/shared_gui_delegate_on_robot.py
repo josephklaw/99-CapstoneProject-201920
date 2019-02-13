@@ -41,3 +41,11 @@ class DelegateThatReceives(object):
         self.robot.sound_system.tone_maker.play_tone(frequency,duration)
     def sound_speak(self,message):
         self.robot.sound_system.speech_maker.speak(message)
+    def go_straight_until_intensity_is_greater_than(self,intensity,speed):
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(intensity,speed)
+    def go_straight_until_intensity_is_less_than(self,intensity,speed):
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(intensity,speed)
+    def go_straight_until_color_is(self,color,speed):
+        self.robot.drive_system.go_straight_until_color_is(color,speed)
+    def go_straight_until_color_is_not(self,color,speed):
+        self.robot.drive_system.go_straight_until_color_is_not(color,speed)
