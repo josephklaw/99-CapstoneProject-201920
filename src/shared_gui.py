@@ -164,6 +164,16 @@ def get_drive_system(window, mqtt_sender):
     inches_entry_time = ttk.Entry(frame,width = 8)
     inches_entry_sensor = ttk.Entry(frame,width=8)
     speed_entry = ttk.Entry(frame,width=8)
+    speed_label = ttk.Label(frame,text="Speed")
+    color_label = ttk.Label(frame,text="Color")
+    intensity_label = ttk.Label(frame,text="Intensity")
+    color_entry = ttk.Entry(frame,width=8)
+    intensity_entry = ttk.Entry(frame,width=8)
+    straight_until_intensity_less = ttk.Button(frame,text="Straight until intensity <")
+    straight_until_intensity_great = ttk.Button(frame,text="Straight until intensity >")
+    straight_until_color_is = ttk.Button(frame,text="Straight until color =")
+    straight_until_color_is_not = ttk.Button(frame,text="Straight until color !=")
+
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
@@ -173,13 +183,27 @@ def get_drive_system(window, mqtt_sender):
     inches_entry_time.grid(row=1,column=1)
     forward_for_inches_sensor.grid(row=2,column=2)
     inches_entry_sensor.grid(row=1,column=2)
-    speed_entry.grid(row=3,column=1)
+    speed_label.grid(row=3,column=0)
+    speed_entry.grid(row=4,column=0)
+    color_label.grid(row=3,column=1)
+    intensity_label.grid(row=3,column=2)
+    color_entry.grid(row=4,column=1)
+    intensity_entry.grid(row=4,column=2)
+    straight_until_intensity_less.grid(row=5,column=0)
+    straight_until_intensity_great.grid(row=5,column=2)
+    straight_until_color_is.grid(row=6,column=0)
+    straight_until_color_is_not.grid(row=6,column=2)
+
 
 
     # Set the Button callbacks:
     forward_for_seconds["command"] = lambda: handle_drive_forward_for_time(seconds_entry, speed_entry, mqtt_sender)
     forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
     forward_for_inches_sensor["command"] = lambda: handle_drive_forward_for_inches_sensor(inches_entry_sensor, speed_entry, mqtt_sender)
+    straight_until_intensity_less["command"] = lambda: handle_go_straight_until_intensity_is_less_than(intensity_entry,speed_entry,mqtt_sender)
+    straight_until_intensity_great["command"] = lambda: handle_go_straight_until_intensity_is_greater_than(intensity_entry,speed_entry,mqtt_sender)
+    straight_until_color_is["command"] = lambda: handle_go_straight_until_color_is(color_entry,speed_entry,mqtt_sender)
+    straight_until_color_is_not["command"] = lambda: handle_go_straight_until_color_is_not(color_entry, speed_entry,mqtt_sender)
 
     return frame
 
@@ -367,7 +391,18 @@ def handle_drive_forward_for_inches_time(inches_entry_time,mqtt_sender):
 def handle_drive_forward_for_inches_sensor(inches_entry_sensor,speed_entry,mqtt_sender):
     print("Drive forward for inches using time",inches_entry_sensor.get())
     mqtt_sender.send_message("drive_forward_for_inches_sensor", [inches_entry_sensor.get(),speed_entry.get()])
-
+def handle_go_straight_until_intensity_is_less_than(intensity_entry,speed_entry,mqtt_sender):
+    print("Go straight until intensity is less than", intensity_entry.get())
+    mqtt_sender.send_message("go_straight_until_intensity_is_less_than",[intensity_entry.get(),speed_entry.get()])
+def handle_go_straight_until_intensity_is_greater_than(intensity_entry,speed_entry,mqtt_sender):
+    print("Go straight until intensity is greater than", intensity_entry.get())
+    mqtt_sender.send_message("go_straight_until_intensity_is_greater_than",[intensity_entry.get(),speed_entry.get()])
+def handle_go_straight_until_color_is(color_entry,speed_entry,mqtt_sender):
+    print("Go straight until color is",color_entry.get(),speed_entry.get())
+    mqtt_sender.send_message("go_straight_until_color_is",[color_entry.get(),speed_entry.get()])
+def handle_go_straight_until_color_is_not(color_entry,speed_entry,mqtt_sender):
+    print("Go straight until color is not",color_entry.get())
+    mqtt_sender.send_message("go_straight_until_color_is_not",[color_entry.get(),speed_entry.get()])
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.
 ###############################################################################
