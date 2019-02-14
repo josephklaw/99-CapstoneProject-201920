@@ -118,6 +118,6 @@ def proximity_frame(window,mqtt_sender):
 # -----------------------------------------------------------------------------
 def handle_drive_and_tone_button(initial_tone, tone_rate, speed, mqtt_sender):
     print("Driving toward an object while the tone maker increases frequency as the robot gets closer", [initial_tone.get(), tone_rate.get(), speed.get()])
-    mqtt_sender.send_message("drive_and_tone_button", [initial_tone.get(), tone_rate.get(), speed.get()])
+    mqtt_sender.send_message("m2_proximity", [initial_tone.get(), tone_rate.get(), speed.get()])
 
 main()
