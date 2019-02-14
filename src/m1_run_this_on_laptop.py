@@ -101,7 +101,7 @@ def get_myframe_proximity(window,mqtt_sender):
     drive_and_beep_button.grid(row=2,column=1)
 
     # Set the Button callbacks:
-    drive_and_beep_button["command"] = lambda: handle_drive_forward_for_time(seconds_entry, speed_entry, mqtt_sender)
+    drive_and_beep_button["command"] = lambda: handle_proximity(initial_beep_rate_entry, beep_rate_increase_entry, mqtt_sender)
 
     return frame
 def get_myframe_camera(window,mqtt_sender):
