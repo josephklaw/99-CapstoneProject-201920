@@ -41,7 +41,7 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame,sound_frame,proximity_frame = get_shared_frames(main_frame,mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame,sound_frame,proximity_frame,camera_frame = get_shared_frames(main_frame,mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
@@ -51,7 +51,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_frame,proximity_frame)
+    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_frame,proximity_frame,camera_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -66,16 +66,18 @@ def get_shared_frames(main_frame, mqtt_sender):
     drive_system = shared_gui.get_drive_system(main_frame,mqtt_sender)
     sound_frame = shared_gui.get_sound_system(main_frame,mqtt_sender)
     myframe_proximity = get_myframe_proximity(main_frame,mqtt_sender)
-    return teleop, arm, control,drive_system,sound_frame,myframe_proximity
+    myframe_camera = get_myframe_camera(main_frame,mqtt_sender)
+    return teleop, arm, control,drive_system,sound_frame,myframe_proximity, myframe_camera
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame,sound_frame,proximity_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame,sound_frame,proximity_frame,camera_frame):
     teleop_frame.grid(row=0,column=0)
     arm_frame.grid(row=1,column=0)
     control_frame.grid(row=2,column=0)
     drive_system_frame.grid(row=0,column=1)
     sound_frame.grid(row=1,column=1)
     proximity_frame.grid(row=2,column=1)
+    camera_frame.grid(row=3,column=0)
 
 def get_myframe_proximity(window,mqtt_sender):
     # Construct the frame to return:
@@ -99,6 +101,29 @@ def get_myframe_proximity(window,mqtt_sender):
     drive_and_beep_button.grid(row=2,column=1)
 
     return frame
+def get_myframe_camera(window,mqtt_sender):
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame,text="Finding Object Through Spinning")
+    direction_label = ttk.Label(frame,text="CW or CCW")
+    direction_entry = ttk.Entry(frame,width=8)
+    speed_label = ttk.Label(frame,text="Speed")
+    speed_entry = ttk.Entry(frame,width=8)
+    find_object_button = ttk.Button(frame,text="Find Object")
+
+    # Grid the widgets:
+    frame_label.grid(row=0,column=1)
+    direction_label.grid(row=1,column=0)
+    direction_entry.grid(row=2,column=0)
+    speed_label.grid(row=1,column=2)
+    speed_entry.grid(row=2,column=2)
+    find_object_button.grid(row=2,column=1)
+
+    return frame
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

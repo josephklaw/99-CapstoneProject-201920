@@ -49,7 +49,12 @@ def spin_to_find_object(direction,robot):
         robot.drive_system.go(-50,50)
         while True:
             time.sleep(0.01)
-            if robot.sensor_system.camera.
+            if robot.sensor_system.camera. :
+                break
     elif direction == "CW":
-
+        robot.drive_system.go(50,-50)
+        while True:
+            time.sleep(0.01)
+            if robot.sensor_system.camera.:
+                break
 main()
