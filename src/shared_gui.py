@@ -159,7 +159,7 @@ def get_drive_system(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="Drive System")
     forward_for_seconds = ttk.Button(frame, text="Seconds")
     forward_for_inches_time = ttk.Button(frame, text="Inches (Time)")
-    forward_for_inches_sensor = ttk.Button(frame,text="Inches (Sensor")
+    forward_for_inches_sensor = ttk.Button(frame,text="Inches (Sensor)")
     seconds_entry = ttk.Entry(frame, width=8)
     inches_entry_time = ttk.Entry(frame,width = 8)
     inches_entry_sensor = ttk.Entry(frame,width=8)
