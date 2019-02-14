@@ -29,7 +29,7 @@ def spin_to_find_object(direction,speed,rate_of_beep,rate_of_beep_increase,robot
         robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
     if direction == "CW":
         robot.drive_system.spin_clockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
-    increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase)
+    increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot)
     #     robot.drive_system.go(-50,50)
     #     while True:
     #         time.sleep(0.01)
