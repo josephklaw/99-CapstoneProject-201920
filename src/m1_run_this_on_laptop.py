@@ -131,7 +131,7 @@ def get_myframe_camera(window,mqtt_sender):
 # Handle Functions
 # -----------------------------------------------------------------------------
 def handle_proximity(initial_beep_rate_entry,beep_rate_increase_entry,mqtt_sender):
-    print("Proximity Beeping and Booping (Initial rate - Increase): (",initial_beep_rate_entry,"-",beep_rate_increase_entry)
+    print("Proximity Beeping and Booping (Initial rate - Increase): (",initial_beep_rate_entry,"-",beep_rate_increase_entry,")")
     mqtt_sender.send_message("m1_proximity",[initial_beep_rate_entry.get(),beep_rate_increase_entry.get()])
 
 # -----------------------------------------------------------------------------
