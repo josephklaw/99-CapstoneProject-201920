@@ -6,11 +6,15 @@
     and Joseph Law, Aaryan Khatri, and Lucas D'Alesio.
   Winter term, 2018-2019.
 """
+import m1_run_this_on_robot
+import m2_run_this_on_robot
+import m3_run_this_on_robot
 
 class DelegateThatReceives(object):
     def __init__(self,robot):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
+        self.m1 = m1_run_this_on_robot
         self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed),
@@ -77,3 +81,6 @@ class DelegateThatReceives(object):
 
     def go_until_distance_is_within(self, delta, inches, speed):
         self.robot.drive_system.go_until_distance_is_within(delta, inches, speed)
+
+    def m1_proximity(self,initial_beep_rate,beep_rate_increase):
+        self.m1.increasing_rate_of_beep(initial_beep_rate,beep_rate_increase)
