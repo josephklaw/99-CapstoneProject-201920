@@ -100,6 +100,9 @@ def get_myframe_proximity(window,mqtt_sender):
     beep_rate_increase_entry.grid(row=2,column=2)
     drive_and_beep_button.grid(row=2,column=1)
 
+    # Set the Button callbacks:
+    drive_and_beep_button["command"] = lambda: handle_drive_forward_for_time(seconds_entry, speed_entry, mqtt_sender)
+
     return frame
 def get_myframe_camera(window,mqtt_sender):
     # Construct the frame to return:
@@ -123,6 +126,13 @@ def get_myframe_camera(window,mqtt_sender):
     find_object_button.grid(row=2,column=1)
 
     return frame
+
+# -----------------------------------------------------------------------------
+# Handle Functions
+# -----------------------------------------------------------------------------
+def handle_proximity(initial_beep_rate,beep_rate_increase,mqtt_sender):
+    print("Proximity Beeping and Booping (Initial rate - Increase): (",initial_beep_rate,"-",beep_rate_increase)
+    mqtt_sender.send_message()
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
