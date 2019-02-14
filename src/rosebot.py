@@ -193,9 +193,13 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         """
 
+        print(inches)
+        print(speed)
         self.go(speed, speed)
+        time.sleep(1)
         while True:
-            if self.ir_proximity_sensor < inches:
+            time.sleep(0.25)
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() < int(inches):
                 self.stop()
                 break
 
@@ -206,9 +210,13 @@ class DriveSystem(object):
         Assumes that it senses an object when it starts.
         """
 
+        print(inches)
+        print(speed)
+        time.sleep(1)
         self.go(speed, speed)
         while True:
-            if self.ir_proximity_sensor > inches:
+            time.sleep(0.25)
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() > int(inches):
                 self.stop()
                 break
 
@@ -223,10 +231,15 @@ class DriveSystem(object):
         from the object.
         """
 
+        print(delta)
+        print(inches)
+        print(speed)
+        time.sleep(1)
         self.go(speed, speed)
         while True:
-            if abs(inches-delta) >= self.ir_proximity_sensor:
-                if abs(delta + inches) <= self.ir_proximity_sensor:
+            time.sleep(0.25)
+            if abs(int(inches-delta)) >= self.sensor_system.ir_proximity_sensor.get_distance_in_inches():
+                if abs(int(delta + inches)) <= self.sensor_system.ir_proximity_sensor.get_distance_in_inches():
                     self.stop()
                     break
 
