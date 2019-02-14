@@ -193,7 +193,6 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         """
 
-        self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.go(speed, speed)
         while True:
             if self.ir_proximity_sensor < inches:
@@ -207,7 +206,6 @@ class DriveSystem(object):
         Assumes that it senses an object when it starts.
         """
 
-        self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.go(speed, speed)
         while True:
             if self.ir_proximity_sensor > inches:
@@ -225,7 +223,6 @@ class DriveSystem(object):
         from the object.
         """
 
-        self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.go(speed, speed)
         while True:
             if abs(inches-delta) >= self.ir_proximity_sensor:
