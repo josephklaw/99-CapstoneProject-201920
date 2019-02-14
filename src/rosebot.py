@@ -296,7 +296,7 @@ class DriveSystem(object):
             area1 = height1 * width1
             if area1 >= area:
                 self.stop()
-                    break
+                break
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
             Spins counter-clockwise at the given speed until the camera sees an object
@@ -311,7 +311,7 @@ class DriveSystem(object):
             area1 = height1 * width1
             if area1 >= area:
                 self.stop()
-                    break
+                break
 
 
 ###############################################################################
