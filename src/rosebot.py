@@ -290,7 +290,12 @@ class DriveSystem(object):
             Displays on the GUI the Blob data of the Blob that the camera sees
             (if any).
         """
-        print(self.sensor_system.camera.get_biggest_blob())
+
+        while True:
+            blob = self.sensor_system.camera.get_biggest_blob()
+            print(blob)
+            time.sleep(0.2)
+            break
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
@@ -299,12 +304,12 @@ class DriveSystem(object):
             Requires that the user train the camera on the color of the object.
         """
 
-        self.go(speed, -speed)
+        self.go(speed, (-1 * speed))
         while True:
             height1 = self.sensor_system.camera.get_biggest_blob().height
             width1 = self.sensor_system.camera.get_biggest_blob().width
             area1 = height1 * width1
-            if area1 >= area:
+            if int(area1) >= area:
                 self.stop()
                 break
     def spin_counterclockwise_until_sees_object(self, speed, area):
@@ -314,12 +319,12 @@ class DriveSystem(object):
             Requires that the user train the camera on the color of the object.
         """
 
-        self.go(-speed, speed)
+        self.go((-1 * speed), speed)
         while True:
             height1 = self.sensor_system.camera.get_biggest_blob().height
             width1 = self.sensor_system.camera.get_biggest_blob().width
             area1 = height1 * width1
-            if area1 >= area:
+            if int(area1) >= area:
                 self.stop()
                 break
 
@@ -414,7 +419,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        #self.camera = Camera()
+        self.camera = Camera()
         # self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =

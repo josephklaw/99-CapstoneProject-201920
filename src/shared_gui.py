@@ -186,6 +186,15 @@ def get_drive_system(window, mqtt_sender):
     ir_sensor_within = ttk.Button(frame, text='Within inches using IR')
 
 
+    #display_camera_data = ttk.Button(frame, text="Camera View")
+
+    spin_clockwise_until_sees_object = ttk.Button(frame, text='Spins clockwise until sees object')
+    spin_counterclockwise_until_sees_object = ttk.Button(frame, text='Spins counterclockwise until sees object')
+    speed3_entry = ttk.Entry(frame, width=8)
+    area_entry = ttk.Entry(frame, width=8)
+    speed3_label = ttk.Label(frame, text = 'Speed')
+    area_label = ttk.Label(frame, text = 'Area')
+
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
@@ -218,6 +227,18 @@ def get_drive_system(window, mqtt_sender):
 
 
 
+    #display_camera_data.grid(row=6, column=4)
+
+    spin_clockwise_until_sees_object.grid(row=6, column=4)
+    spin_counterclockwise_until_sees_object.grid(row=6, column=5)
+    speed3_entry.grid(row=7, column=4)
+    area_entry.grid(row=7, column=5)
+    speed3_label.grid(row=8, column =4)
+    area_label.grid(row=8, column=5)
+
+
+
+
     # Set the Button callbacks:
     forward_for_seconds["command"] = lambda: handle_drive_forward_for_time(seconds_entry, speed_entry, mqtt_sender)
     forward_for_inches_time["command"] = lambda: handle_drive_forward_for_inches_time(inches_entry_time, mqtt_sender)
@@ -230,6 +251,9 @@ def get_drive_system(window, mqtt_sender):
     ir_sensor_less_than["command"] = lambda: handle_go_forward_until_distance_is_less_than(ir_inches_entry, speed2_entry, mqtt_sender)
     ir_sensor_greather_than['command'] = lambda: handle_go_backward_until_distance_is_greater_than(ir_inches_entry, speed2_entry, mqtt_sender)
     ir_sensor_within["command"] = lambda: handle_go_until_distance_is_within(ir_inches_entry, speed2_entry, ir_delta_entry, mqtt_sender)
+
+    spin_clockwise_until_sees_object["command"] = lambda: handle_spin_clockwise_until_sees_object(speed3_entry, area_entry, mqtt_sender)
+    spin_counterclockwise_until_sees_object["command"] = lambda: handle_spin_counterclockwise_until_sees_object(speed3_entry, area_entry, mqtt_sender)
 
     return frame
 
@@ -441,6 +465,13 @@ def handle_go_until_distance_is_within(ir_inches_entry, speed2_entry, ir_delta_e
     print("Go forward until robot is within given delta of the given inches", [ir_inches_entry.get(), speed2_entry.get(), ir_delta_entry.get()])
     mqtt_sender.send_message("go_until_distance_is_within", [ir_inches_entry.get(), speed2_entry.get(), ir_delta_entry.get()])
 
+def handle_spin_clockwise_until_sees_object(speed3_entry, area_entry, mqtt_sender):
+    print("Spins clockwise until the robot sees the object", [speed3_entry.get(), area_entry.get()])
+    mqtt_sender.send_message("spin_clockwise_until_sees_object", [speed3_entry.get(), area_entry.get()])
+
+def handle_spin_counterclockwise_until_sees_object(speed3_entry, area_entry, mqtt_sender):
+    print("Spins counterclockwise until the robot sees the object", [speed3_entry.get(), area_entry.get()])
+    mqtt_sender.send_message("spin_counterclockwise_until_sees_object", [speed3_entry.get(), area_entry.get()])
 
 
 ###############################################################################
@@ -455,3 +486,4 @@ def handle_tone(frequency_entry,duration_entry,mqtt_sender):
 def handle_speak(phrase_entry,mqtt_sender):
     print("Speak",phrase_entry.get())
     mqtt_sender.send_message("sound_speak",[phrase_entry.get()])
+

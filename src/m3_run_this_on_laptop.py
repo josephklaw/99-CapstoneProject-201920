@@ -40,7 +40,9 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame = get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame, m3_proximity_sensor_frame,
+    choose_pick_up_frame = get_shared_frames(main_frame, mqtt_sender)
+
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
@@ -50,7 +52,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame, m3_proximity_sensor_frame, choose_pick_up_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -63,19 +65,132 @@ def get_shared_frames(main_frame, mqtt_sender):
     arm = shared_gui.get_arm_frame(main_frame, mqtt_sender)
     control = shared_gui.get_control_frame(main_frame, mqtt_sender)
     drive_system = shared_gui.get_drive_system(main_frame, mqtt_sender)
-    sound_frame = shared_gui.get_sound_system(main_frame, mqtt_sender)
-    return teleop, arm, control, drive_system, sound_frame
+    sound = shared_gui.get_sound_system(main_frame, mqtt_sender)
+    pick_up_with_proximity_sensor_frame = get_pick_up_with_proximity_sensor_frame(main_frame, mqtt_sender)
+    choose_pick_up_frame = get_choose_pick_up_frame(main_frame, mqtt_sender)
+
+
+    return teleop_frame, arm_frame, control_frame, driver_frame, sound_frame, pick_up_with_proximity_sensor_frame,choose_pick_up_frame
 
 
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame, pick_up_with_proximity_sensor_frame, choose_pick_up_frame):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
     drive_system_frame.grid(row=3, column=0)
     sound_frame.grid(row=0, column=1)
+    pick_up_with_proximity_sensor_frame.grid(row=2, column=1)
+    choose_pick_up_frame.grid(row=3, column=0)
 
+
+def get_pick_up_with_proximity_sensor_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label0 = ttk.Label(frame, text='LED Pick up')
+    frame_label1 = ttk.Label(frame, text="Initial: ")
+    frame_label2 = ttk.Label(frame, text="Rate of Increase: ")
+    initial_entry = ttk.Entry(frame, width=8)
+    rate_of_increase_entry = ttk.Entry(frame, width=8)
+    go_button = ttk.Button(frame, text='Go')
+
+    # Grid the widgets:
+    frame_label0.grid(row=0, column=2)
+    frame_label1.grid(row=1, column=0)
+    frame_label2.grid(row=1, column=2)
+    initial_entry.grid(row=1, column=1)
+    rate_of_increase_entry.grid(row=1, column=3)
+    go_button.grid(row=1, column=5)
+
+    # Set the Button callbacks:
+    go_button["command"] = lambda: handle_get_pick_up_with_proximity_sensor(initial_entry, rate_of_increase_entry,
+                                                                        mqtt_sender)
+
+    return frame
+
+def get_choose_pick_up_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label1 = ttk.Label(frame, text="Turn and Choose Pick up Method")
+    frame_label2 = ttk.Label(frame, text='Speed: ')
+    frame_label3 = ttk.Label(frame, text='Area: ')
+    frame_label4 = ttk.Label(frame, text='Direction: ')
+    frame_label5 = ttk.Label(frame, text='Initial : ')
+    frame_label6 = ttk.Label(frame, text="Rate of Increase: ")
+    frame_label7 = ttk.Label(frame, text='0 - 100 Respectively')
+    frame_label8 = ttk.Label(frame, text='CW/CCW')
+    speed_scale = ttk.Scale(frame, from_=0, to=100)
+    area_entry = ttk.Entry(frame, width=8)
+    direction_entry = ttk.Entry(frame, width=8)
+    initial_entry = ttk.Entry(frame, width=8)
+    rate_entry = ttk.Entry(frame, width=8)
+
+    led_button = ttk.Button(frame, text='LED Method')
+    beeping_button = ttk.Button(frame, text='Beeping Method')
+    tone_button = ttk.Button(frame, text='Tone Method')
+
+    # Grid the widgets:
+    frame_label1.grid(row=0, column=1)
+    frame_label2.grid(row=1, column=0)
+    frame_label3.grid(row=2, column=0)
+    frame_label4.grid(row=3, column=0)
+    frame_label5.grid(row=4, column=0)
+    frame_label6.grid(row=5, column=0)
+    frame_label7.grid(row=1, column=2)
+    frame_label8.grid(row=3, column=2)
+    speed_scale.grid(row=1, column=1)
+    area_entry.grid(row=2, column=1)
+    direction_entry.grid(row=3, column=1)
+    initial_entry.grid(row=4, column=1)
+    rate_entry.grid(row=5, column=1)
+    led_button.grid(row=6, column=0)
+    beeping_button.grid(row=6, column=1)
+    tone_button.grid(row=6, column=2)
+
+    # Set the Button callbacks:
+    led_button["command"] = lambda: handle_led(speed_scale, area_entry, direction_entry, initial_entry, rate_entry,
+                                               mqtt_sender)
+    beeping_button['command'] = lambda: handle_beep(speed_scale, area_entry, direction_entry, initial_entry, rate_entry,
+                                                    mqtt_sender)
+    tone_button['command'] = lambda: handle_tone(speed_scale, area_entry, direction_entry, initial_entry, rate_entry,
+                                                 mqtt_sender)
+
+    return frame
+
+def handle_pick_up_with_proximity_sensor(initial_entry, rate_of_increase_entry, mqtt_sender):
+    print("Initial:", initial_entry.get(), "Rate of increase:", rate_of_increase_entry.get())
+    mqtt_sender.send_message("m3_led_proximity_sensor", [initial_entry.get(), rate_of_increase_entry.get()])
+
+def handle_led(speed_entry, area_entry, direction_entry, initial_entry, rate_entry, mqtt_sender):
+    print('LED Pick up Method')
+    print('Speed:', speed_entry.get(), 'Area:', area_entry.get())
+    print('Direction:', direction_entry.get())
+    print("Initial:", initial_entry.get(), "Rate of increase:", rate_entry.get())
+    mqtt_sender.send_message('m3_led_pick_up', [speed_entry.get(), area_entry.get(), direction_entry.get(),
+                                                initial_entry.get(), rate_entry.get()])
+
+
+def handle_beep(speed_entry, area_entry, direction_entry, initial_entry, rate_entry, mqtt_sender):
+    print('Beep Pick up Method')
+    print('Speed:', speed_entry.get(), 'Area:', area_entry.get())
+    print('Direction:', direction_entry.get())
+    print("Initial:", initial_entry.get(), "Rate of increase:", rate_entry.get())
+    mqtt_sender.send_message('m3_beep_pick_up', [speed_entry.get(), area_entry.get(), direction_entry.get(),
+                                                 initial_entry.get(), rate_entry.get()])
+
+
+def handle_tone(speed_entry, area_entry, direction_entry, initial_entry, rate_entry, mqtt_sender):
+    print('Tone Pick up Method')
+    print('Speed:', speed_entry.get(), 'Area:', area_entry.get())
+    print('Direction:', direction_entry.get())
+    print("Initial:", initial_entry.get(), "Rate of increase:", rate_entry.get())
+    mqtt_sender.send_message('m3_tone_pick_up', [speed_entry.get(), area_entry.get(), direction_entry.get(),
+                                                 initial_entry.get(), rate_entry.get()])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
