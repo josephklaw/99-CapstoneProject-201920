@@ -8,6 +8,7 @@
 """
 import m1_extra as m1
 import m2_extra as m2
+import m3_extra as m3
 import m3_run_this_on_robot
 
 class DelegateThatReceives(object):
@@ -93,3 +94,5 @@ class DelegateThatReceives(object):
     def m2_camera(self, direction, speed):
         m2.point_to_object(str(direction), int(speed), self.robot)
 
+    def m3_proximity(self, initial, rate_of_increase):
+        m3.increasing_rate_led(initial, rate_of_increase, self.robot)
