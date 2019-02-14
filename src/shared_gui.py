@@ -175,6 +175,18 @@ def get_drive_system(window, mqtt_sender):
     straight_until_color_is_not = ttk.Button(frame,text="Straight until color !=")
 
 
+    speed2_label = ttk.Label(frame, text='Given Speed')
+    speed2_entry = ttk.Entry(frame, width=8)
+    inches_label = ttk.Label(frame, text='Given Inches')
+    delta_label = ttk.Label(frame, text='Delta')
+    ir_sensor_less_than = ttk.Button(frame, text='Less than inches using IR')
+    ir_sensor_greather_than = ttk.Button(frame, text='Greater than inches using IR')
+    ir_inches_entry = ttk.Entry(frame, width=8)
+    ir_delta_entry = ttk.Entry(frame, width=8)
+    ir_sensor_within = ttk.Button(frame, text='Within inches using IR')
+
+
+
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
     forward_for_seconds.grid(row=2, column=0)
@@ -194,6 +206,16 @@ def get_drive_system(window, mqtt_sender):
     straight_until_color_is.grid(row=6,column=0)
     straight_until_color_is_not.grid(row=6,column=2)
 
+    speed2_entry.grid(row=9, column=4)
+    speed2_label.grid(row=8, column=4)
+    inches_label.grid(row=8,column=5)
+    delta_label.grid(row=8, column=6)
+    ir_sensor_within.grid(row=7, column=5)
+    ir_sensor_less_than.grid(row=8, column=5)
+    ir_sensor_greather_than.grid(row=8, column=6)
+    ir_inches_entry.grid(row=9, column=5)
+    ir_delta_entry.grid(row=9, column=6)
+
 
 
     # Set the Button callbacks:
@@ -204,6 +226,10 @@ def get_drive_system(window, mqtt_sender):
     straight_until_intensity_great["command"] = lambda: handle_go_straight_until_intensity_is_greater_than(intensity_entry,speed_entry,mqtt_sender)
     straight_until_color_is["command"] = lambda: handle_go_straight_until_color_is(color_entry,speed_entry,mqtt_sender)
     straight_until_color_is_not["command"] = lambda: handle_go_straight_until_color_is_not(color_entry, speed_entry,mqtt_sender)
+
+    ir_sensor_less_than["command"] = lambda: handle_go_forward_until_distance_is_less_than(ir_inches_entry, speed2_entry, mqtt_sender)
+    ir_sensor_greather_than['command'] = lambda: handle_go_backward_until_distance_is_greater_than(ir_inches_entry, speed2_entry, mqtt_sender)
+    ir_sensor_within["command"] = lambda: handle_go_until_distance_is_within(ir_inches_entry, speed2_entry, ir_delta_entry, mqtt_sender)
 
     return frame
 
@@ -402,6 +428,21 @@ def handle_go_straight_until_color_is(color_entry,speed_entry,mqtt_sender):
 def handle_go_straight_until_color_is_not(color_entry,speed_entry,mqtt_sender):
     print("Go straight until color is not",color_entry.get())
     mqtt_sender.send_message("go_straight_until_color_is_not",[color_entry.get(),speed_entry.get()])
+
+def handle_go_forward_until_distance_is_less_than(ir_inches_entry, speed2_entry, mqtt_sender):
+    print("Go forward at speed until robot is less than the given inches", [ir_inches_entry.get(), speed2_entry.get()])
+    mqtt_sender.send_message("go_forward_until_distance_is_less_than", [ir_inches_entry.get(), speed2_entry.get()])
+
+def handle_go_backward_until_distance_is_greater_than(ir_inches_entry, speed2_entry, mqtt_sender):
+    print("Go forward at speed until robot is greater than the given inches", [ir_inches_entry.get(), speed2_entry.get()])
+    mqtt_sender.send_message("go_backward_until_distance_is_greater_than", [ir_inches_entry.get(), speed2_entry.get()])
+
+def handle_go_until_distance_is_within(ir_inches_entry, speed2_entry, ir_delta_entry, mqtt_sender):
+    print("Go forward until robot is within given delta of the given inches", [ir_inches_entry.get(), speed2_entry.get(), ir_delta_entry.get()])
+    mqtt_sender.send_message("go_until_distance_is_within", [ir_inches_entry.get(), speed2_entry.get(), ir_delta_entry.get()])
+
+
+
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.
 ###############################################################################
