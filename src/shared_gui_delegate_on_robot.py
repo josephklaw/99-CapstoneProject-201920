@@ -6,7 +6,7 @@
     and Joseph Law, Aaryan Khatri, and Lucas D'Alesio.
   Winter term, 2018-2019.
 """
-import m1_run_this_on_robot
+import m1_extra
 import m2_extra as m2
 import m3_run_this_on_robot
 
@@ -14,7 +14,7 @@ class DelegateThatReceives(object):
     def __init__(self,robot):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
-        self.m1 = m1_run_this_on_robot
+        self.m1 = m1_extra
         self.m3 = m3_run_this_on_robot
         self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
