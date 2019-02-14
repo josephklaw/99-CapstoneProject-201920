@@ -86,3 +86,6 @@ class DelegateThatReceives(object):
 
     def m1_proximity(self,initial_beep_rate,beep_rate_increase):
         self.m1.increasing_rate_of_beep(initial_beep_rate,beep_rate_increase,self.robot)
+
+    def m2_proximity(self, initial_tone, tone_rate_increase, speed):
+        self.m2.increasing_tone(initial_tone, tone_rate_increase, speed, self.robot)
