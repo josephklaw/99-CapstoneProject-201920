@@ -91,8 +91,8 @@ class DelegateThatReceives(object):
     def m2_proximity(self, initial_tone, tone_rate_increase, speed):
         m2.increasing_tone(float(initial_tone), float(tone_rate_increase), int(speed), self.robot)
 
-    def m2_camera(self, direction, speed):
-        m2.point_to_object(str(direction), int(speed), self.robot)
+    def m2_camera(self, direction, speed, initial_tone, tone_rate_increase):
+        m2.point_to_object(str(direction), int(initial_tone), int(tone_rate_increase), int(speed), self.robot)
 
     def m3_proximity(self, initial, rate_of_increase):
         m3.increasing_rate_led(initial, rate_of_increase, self.robot)
