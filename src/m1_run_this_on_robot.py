@@ -8,6 +8,7 @@ import rosebot
 import mqtt_remote_method_calls as com
 import time
 import shared_gui_delegate_on_robot
+import m1_extra
 
 def main():
     """

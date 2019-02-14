@@ -125,6 +125,8 @@ def get_myframe_camera(window,mqtt_sender):
     speed_entry.grid(row=2,column=2)
     find_object_button.grid(row=2,column=1)
 
+    find_object_button["command"] = lambda: handle_spin_to_find_object(direction_entry, speed_entry, mqtt_sender)
+
     return frame
 
 # -----------------------------------------------------------------------------
@@ -134,6 +136,9 @@ def handle_proximity(initial_beep_rate_entry,beep_rate_increase_entry,mqtt_sende
     print("Proximity Beeping and Booping (Initial rate - Increase): (",initial_beep_rate_entry,"-",beep_rate_increase_entry,")")
     mqtt_sender.send_message("m1_proximity",[initial_beep_rate_entry.get(),beep_rate_increase_entry.get()])
 
+def handle_spin_to_find_object(direction_entry,speed_entry,mqtt_sender):
+    print("Spinning to find object",direction_entry,speed_entry)
+    mqtt_sender.send_message("spin_to_find_object",[direction_entry.get(),speed_entry.get()])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
