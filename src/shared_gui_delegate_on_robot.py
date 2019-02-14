@@ -67,3 +67,13 @@ class DelegateThatReceives(object):
 
     def go_straight_to_the_beacon(self, inches, speed):
         self.robot.drive_system.go_straight_to_the_beacon(speed, inches)
+
+
+    def go_forward_until_distance_is_less_than(self, inches, speed):
+        self.robot.drive_system.go_forward_until_distance_is_less_than(inches, speed)
+
+    def go_backward_until_distance_is_greater_than(self, inches, speed):
+        self.robot.drive_system.go_backward_until_distance_is_greater_than(inches, speed)
+
+    def go_until_distance_is_within(self, delta, inches, speed):
+        self.robot.drive_system.go_until_distance_is_within(delta, inches, speed)
