@@ -137,7 +137,7 @@ def camera_frame(window,mqtt_sender):
     speed_entry.grid(row=2,column=2)
     find_object_button.grid(row=2,column=1)
 
-    find_object_button["command"]=lambda: handle_find_object_button(direction_entry, speed_entry, mqtt_sender)
+    find_object_button["command"]=lambda:handle_find_object_button(direction_entry, speed_entry, mqtt_sender)
 
     return frame
 
