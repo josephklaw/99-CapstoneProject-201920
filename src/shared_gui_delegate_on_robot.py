@@ -85,8 +85,8 @@ class DelegateThatReceives(object):
     def m1_proximity(self,initial_beep_rate,beep_rate_increase):
         m1.increasing_rate_of_beep(initial_beep_rate,beep_rate_increase,self.robot)
 
-    def m1_camera(self,direction,speed):
-        m1.spin_to_find_object(direction,speed,self.robot)
+    def m1_camera(self,direction,speed,initial_beep_rate,beep_rate_increase):
+        m1.spin_to_find_object(direction,speed,initial_beep_rate,beep_rate_increase,self.robot)
     def m2_proximity(self, initial_tone, tone_rate_increase, speed):
         m2.increasing_tone(float(initial_tone), float(tone_rate_increase), int(speed), self.robot)
 
