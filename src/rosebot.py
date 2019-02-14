@@ -143,7 +143,7 @@ class DriveSystem(object):
         """
         self.go(int(speed), int(speed))
         while True:
-            if self.sensor_system.color_sensor.get_reflected_light_intensity() >= intensity:
+            if self.sensor_system.color_sensor.get_reflected_light_intensity() >= int(intensity):
                 print(self.sensor_system.color_sensor.get_reflected_light_intensity(), ">", intensity)
                 self.stop()
                 break
@@ -180,7 +180,7 @@ class DriveSystem(object):
         self.go(int(speed), int(speed))
         while True:
             if self.sensor_system.color_sensor.get_color() != int(color):
-                print(self.sensor_system.color_sensor.get_color(), "is", color)
+                print(self.sensor_system.color_sensor.get_color(), "is not", color)
                 self.stop()
                 break
         print(self.sensor_system.color_sensor.get_color(), "is", color)
@@ -404,7 +404,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        self.camera = Camera()
+        #self.camera = Camera()
         # self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =

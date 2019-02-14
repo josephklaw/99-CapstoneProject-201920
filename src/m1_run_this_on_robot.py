@@ -43,18 +43,18 @@ def increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot):
         if distance <= 5:
             break
     robot.drive_system.stop()
-def spin_to_find_object(direction,robot):
-    """:type  robot: rosebot.RoseBot"""
-    if direction == "CCW":
-        robot.drive_system.go(-50,50)
-        while True:
-            time.sleep(0.01)
-            if robot.sensor_system.camera. :
-                break
-    elif direction == "CW":
-        robot.drive_system.go(50,-50)
-        while True:
-            time.sleep(0.01)
-            if robot.sensor_system.camera.:
-                break
+# def spin_to_find_object(direction,robot):
+#     """:type  robot: rosebot.RoseBot"""
+#     if direction == "CCW":
+#         robot.drive_system.go(-50,50)
+#         while True:
+#             time.sleep(0.01)
+#             if robot.sensor_system.camera. :
+#                 break
+#     elif direction == "CW":
+#         robot.drive_system.go(50,-50)
+#         while True:
+#             time.sleep(0.01)
+#             if robot.sensor_system.camera.:
+#                 break
 main()
