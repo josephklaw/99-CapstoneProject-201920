@@ -150,6 +150,6 @@ def handle_drive_and_tone_button(initial_tone, tone_rate, speed, mqtt_sender):
 
 def handle_find_object_button(direction, speed, mqtt_sender):
     print("Points straight to the object", [direction.get(), speed.get()])
-    mqtt_sender.send_message("m2_camera", [direction.get(), speed.get()])
+    mqtt_sender.send_message("m2_camera", [direction.get(), speed.get(), 50, 25])
 
 main()

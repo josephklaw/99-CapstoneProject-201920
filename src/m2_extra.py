@@ -1,3 +1,5 @@
+import ev3dev.ev3 as ev3
+
 def increasing_tone(initial_tone, tone_rate_increase, speed, robot):
     """:type  robot: rosebot.RoseBot"""
     robot.drive_system.go(speed, speed)
@@ -17,10 +19,10 @@ def increasing_tone(initial_tone, tone_rate_increase, speed, robot):
 
 def point_to_object(direction, speed, initial_tone, tone_rate_increase, robot):
     """:type  robot: rosebot.RoseBot"""
-    pixy = ev3.Sensor(driver_name="pixy-lego")
-    pixy.mode = "SIG1"
+    p = ev3.Sensor(driver_name="pixy-lego")
+    p.mode = "SIG1"
     if direction == "CCW":
-        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), pixy.value(3) * pixy.value(4))
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
     if direction == "CW":
-        robot.drive_system.spin_clockwise_until_sees_object(int(speed), pixy.value(3) * pixy.value(4))
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
     increasing_tone(initial_tone, tone_rate_increase, speed, robot)
