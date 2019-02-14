@@ -7,7 +7,7 @@
   Winter term, 2018-2019.
 """
 import m1_run_this_on_robot
-import m2_run_this_on_robot
+import m2_Feature9 as m2
 import m3_run_this_on_robot
 
 class DelegateThatReceives(object):
@@ -88,4 +88,4 @@ class DelegateThatReceives(object):
         self.m1.increasing_rate_of_beep(initial_beep_rate,beep_rate_increase,self.robot)
 
     def m2_proximity(self, initial_tone, tone_rate_increase, speed):
-        self.m2.increasing_tone(initial_tone, tone_rate_increase, speed, self.robot)
+        m2.increasing_tone(initial_tone, tone_rate_increase, speed, self.robot)
