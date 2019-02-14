@@ -7,7 +7,7 @@
   Winter term, 2018-2019.
 """
 import m1_run_this_on_robot
-import m2_Feature9 as m2
+import m2_extra as m2
 import m3_run_this_on_robot
 
 class DelegateThatReceives(object):
@@ -15,7 +15,6 @@ class DelegateThatReceives(object):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
         self.m1 = m1_run_this_on_robot
-        self.m2 = m2_run_this_on_robot
         self.m3 = m3_run_this_on_robot
         self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
