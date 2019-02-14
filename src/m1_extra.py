@@ -21,14 +21,15 @@ def increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot):
             break
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
-def spin_to_find_object(direction,speed,robot):
+def spin_to_find_object(direction,speed,rate_of_beep,rate_of_beep_increase,robot):
     """:type  robot: rosebot.RoseBot"""
     pixy = ev3.Sensor(driver_name="pixy-lego")
     pixy.mode = "SIG1"
     if direction == "CCW":
-        robot.drive_system.spin_counterclockwise_until_sees_object(speed,pixy.value(1)*pixy.value(2))
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
     if direction == "CW":
-        robot.drive_system.spin_clockwise_until_sees_object(speed,pixy.value(1)*pixy.value(2))
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
+    increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot)
     #     robot.drive_system.go(-50,50)
     #     while True:
     #         time.sleep(0.01)
