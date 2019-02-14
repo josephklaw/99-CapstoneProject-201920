@@ -34,6 +34,9 @@ def real_thing():
         if delegate_that_receives.is_time_to_stop:
             break
 
+def increasing_tone(initial_tone_rate, tone_rate_increase, robot):
+    
+
 
 
 
