@@ -15,6 +15,8 @@ class DelegateThatReceives(object):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
         self.m1 = m1_run_this_on_robot
+        self.m2 = m2_run_this_on_robot
+        self.m3 = m3_run_this_on_robot
         self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed),
