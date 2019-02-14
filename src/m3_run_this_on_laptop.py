@@ -52,7 +52,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_frame, m3_proximity_sensor_frame, choose_pick_up_frame)
+    grid_frames(teleop_frames, arm_frame, control_frame, drive_system_frame, sound_frame, m3_proximity_sensor_frame, choose_pick_up_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
