@@ -49,3 +49,21 @@ class DelegateThatReceives(object):
         self.robot.drive_system.go_straight_until_color_is(color,speed)
     def go_straight_until_color_is_not(self,color,speed):
         self.robot.drive_system.go_straight_until_color_is_not(color,speed)
+
+    def spin_clockwise_until_sees_object(self, speed, area):
+        self.robot.drive_system.spin_clockwise_until_sees_object(speed, area)
+
+    def spin_counterclockwise_until_sees_object(self, speed, area):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, area)
+
+    def display_camera_data(self):
+        self.robot.drive_system.display_camera_data()
+
+    def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
+        self.robot.drive_system.spin_clockwise_until_beacon_heading_is_nonnegative(speed)
+
+    def spin_counterclockwise_until_beacon_heading_is_nonpositive(self, speed):
+        self.robot.drive_system.spin_counterclockwise_until_beacon_heading_is_nonpositive(speed)
+
+    def go_straight_to_the_beacon(self, inches, speed):
+        self.robot.drive_system.go_straight_to_the_beacon(speed, inches)

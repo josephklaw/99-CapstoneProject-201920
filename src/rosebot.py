@@ -238,78 +238,79 @@ class DriveSystem(object):
         # Methods for driving that use the infrared beacon sensor.
         # -------------------------------------------------------------------------
 
-        def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
-            """
-            Spins clockwise at the given speed until the heading to the Beacon
+    def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
+        """
+        Spins clockwise at the given speed until the heading to the Beacon
             is nonnegative.  Requires that the user turn on the Beacon.
-            """
-            self.ir_beacon_sensor = InfraredBeaconSensor
-            self.go(speed, -speed)
-            while True:
-                if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
-                    break
+        """
+        self.ir_beacon_sensor = InfraredBeaconSensor
+        self.go(speed, -speed)
+        while True:
+            if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
+                break
 
 
-        def spin_counterclockwise_until_beacon_heading_is_nonpositive(self, speed):
-            """
+    def spin_counterclockwise_until_beacon_heading_is_nonpositive(self, speed):
+        """
             Spins counter-clockwise at the given speed until the heading to the Beacon
             is nonnegative.  Requires that the user turn on the Beacon.
-            """
-            self.ir_beacon_sensor = InfraredBeaconSensor
-            self.go(-speed, speed)
-            while True:
-                if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
-                    break
-        def go_straight_to_the_beacon(self, inches, speed):
-            """
+        """
+        self.ir_beacon_sensor = InfraredBeaconSensor
+        self.go(-speed, speed)
+        while True:
+            if self.ir_beacon_sensor.get_distance_to_beacon() < 0:
+                break
+    def go_straight_to_the_beacon(self, inches, speed):
+        """
             Goes forward at the given speed until the robot is less than the
             given number of inches from the Beacon.
             Assumes that the Beacon is turned on and placed straight ahead.
-            """
-            self.ir_beacon_sensor = InfraredBeaconSensor
-            self.go(speed, speed)
-            while True:
-                if self.ir_beacon_sensor.get_distance_to_beacon() < inches:
-                    break
+        """
+        self.ir_beacon_sensor = InfraredBeaconSensor
+        self.go(speed, speed)
+        while True:
+            if self.ir_beacon_sensor.get_distance_to_beacon() < inches:
+                break
 
         # -------------------------------------------------------------------------
         # Methods for driving that use the camera.
         # -------------------------------------------------------------------------
-        def display_camera_data(self):
-            """
+    def display_camera_data(self):
+        """
             Displays on the GUI the Blob data of the Blob that the camera sees
             (if any).
-            """
-            print(self.sensor_system.camera.get_biggest_blob())
-        def spin_clockwise_until_sees_object(self, speed, area):
-            """
+        """
+        print(self.sensor_system.camera.get_biggest_blob())
+
+    def spin_clockwise_until_sees_object(self, speed, area):
+        """
             Spins clockwise at the given speed until the camera sees an object
             of the trained color whose area is at least the given area.
             Requires that the user train the camera on the color of the object.
-            """
+        """
 
-            self.go(speed, -speed)
-            while True:
-                height1 = self.sensor_system.camera.get_biggest_blob().height
-                width1 = self.sensor_system.camera.get_biggest_blob().width
-                area1 = height1 * width1
-                if area1 >= area:
-                    self.stop()
+        self.go(speed, -speed)
+        while True:
+            height1 = self.sensor_system.camera.get_biggest_blob().height
+            width1 = self.sensor_system.camera.get_biggest_blob().width
+            area1 = height1 * width1
+            if area1 >= area:
+                self.stop()
                     break
-        def spin_counterclockwise_until_sees_object(self, speed, area):
-            """
+    def spin_counterclockwise_until_sees_object(self, speed, area):
+        """
             Spins counter-clockwise at the given speed until the camera sees an object
             of the trained color whose area is at least the given area.
             Requires that the user train the camera on the color of the object.
-            """
+        """
 
-            self.go(-speed, speed)
-            while True:
-                height1 = self.sensor_system.camera.get_biggest_blob().height
-                width1 = self.sensor_system.camera.get_biggest_blob().width
-                area1 = height1 * width1
-                if area1 >= area:
-                    self.stop()
+        self.go(-speed, speed)
+        while True:
+            height1 = self.sensor_system.camera.get_biggest_blob().height
+            width1 = self.sensor_system.camera.get_biggest_blob().width
+            area1 = height1 * width1
+            if area1 >= area:
+                self.stop()
                     break
 
 
