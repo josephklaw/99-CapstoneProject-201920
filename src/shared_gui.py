@@ -206,15 +206,15 @@ def get_drive_system(window, mqtt_sender):
     straight_until_color_is.grid(row=6,column=0)
     straight_until_color_is_not.grid(row=6,column=2)
 
-    speed2_entry.grid(row=7, column=4)
-    speed2_label.grid(row=6, column=4)
-    inches_label.grid(row=6,column=5)
-    delta_label.grid(row=6, column=6)
-    ir_sensor_within.grid(row=5, column=5)
-    ir_sensor_less_than.grid(row=6, column=5)
-    ir_sensor_greather_than.grid(row=6, column=6)
-    ir_inches_entry.grid(row=7, column=5)
-    ir_delta_entry.grid(row=7, column=6)
+    speed2_entry.grid(row=2, column=4)
+    speed2_label.grid(row=1, column=4)
+    inches_label.grid(row=1,column=5)
+    delta_label.grid(row=1, column=6)
+    ir_sensor_within.grid(row=3, column=6)
+    ir_sensor_less_than.grid(row=3, column=4)
+    ir_sensor_greather_than.grid(row=3, column=5)
+    ir_inches_entry.grid(row=2, column=5)
+    ir_delta_entry.grid(row=2, column=6)
 
 
 
