@@ -26,9 +26,9 @@ def spin_to_find_object(direction,speed,robot):
     pixy = ev3.Sensor(driver_name="pixy-lego")
     pixy.mode = "SIG1"
     if direction == "CCW":
-        robot.drive_system.spin_counterclockwise_until_sees_object(speed,pixy.value(1)*pixy.value(2))
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
     if direction == "CW":
-        robot.drive_system.spin_clockwise_until_sees_object(speed,pixy.value(1)*pixy.value(2))
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
     #     robot.drive_system.go(-50,50)
     #     while True:
     #         time.sleep(0.01)

@@ -138,7 +138,7 @@ def handle_proximity(initial_beep_rate_entry,beep_rate_increase_entry,mqtt_sende
 
 def handle_spin_to_find_object(direction_entry,speed_entry,mqtt_sender):
     print("Spinning to find object",direction_entry,speed_entry)
-    mqtt_sender.send_message("spin_to_find_object",[direction_entry.get(),speed_entry.get()])
+    mqtt_sender.send_message("m1_camera",[direction_entry.get(),speed_entry.get()])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

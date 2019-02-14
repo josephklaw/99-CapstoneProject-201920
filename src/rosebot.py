@@ -305,13 +305,7 @@ class DriveSystem(object):
         """
 
         self.go(speed, (-1 * speed))
-        while True:
-            height1 = self.sensor_system.camera.get_biggest_blob().height
-            width1 = self.sensor_system.camera.get_biggest_blob().width
-            area1 = height1 * width1
-            if int(area1) >= area:
-                self.stop()
-                break
+
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
             Spins counter-clockwise at the given speed until the camera sees an object
@@ -321,10 +315,7 @@ class DriveSystem(object):
 
         self.go((-1 * speed), speed)
         while True:
-            height1 = self.sensor_system.camera.get_biggest_blob().height
-            width1 = self.sensor_system.camera.get_biggest_blob().width
-            area1 = height1 * width1
-            if int(area1) >= area:
+            if self.sensor_system.camera.get_biggest_blob().height>0:
                 self.stop()
                 break
 
