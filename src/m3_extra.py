@@ -3,32 +3,54 @@ import time
 import rosebot
 import ev3dev.ev3 as ev3
 
-def increasing_rate_led(initial, rate_of_increase, robot):
-    robot.drive_system.go(50, 50)
-    robot.drive_system.left_motor.reset_position()
-    prev_distance = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-    prev_time = time.time()
-    rate = initial
-    delta = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() / ((robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() - 0.01) / rate_of_increase)
-    while True:
-        if robot.drive_system.left_motor.get_position() - prev_distance >= delta:
-            if time.time() - prev_time >= rate:
-                prev_distance = robot.drive_system.left_motor.get_position()
-                prev_time, rate = led_pattern(initial, rate_of_increase, robot)
+def increasing_rate_led (initial, rate_of_increase, robot):
 
-        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
+    print(initial, rate_of_increase)
+    robot.drive_system.go(50, 50)
+    cnt = 0
+    while True:
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() > 15:
+            if cnt % float(initial) == 0:
+                led_pattern(initial, rate_of_increase, robot)
+                cnt = 0
+        elif robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= 2.6:
+            if cnt % float(rate_of_increase) == 0:
+                led_pattern(initial, rate_of_increase, robot)
+                cnt = 0
+            cnt = cnt + .5
+        elif robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 2.5:
             robot.drive_system.stop()
             robot.arm_and_claw.raise_arm()
             break
-        led_pattern()
+        cnt = cnt + .5
+
 
 def led_pattern(initial, rate_of_increase, robot):
     robot.led_system.left_led.turn_on()
+    time.sleep(0.25)
     robot.led_system.left_led.turn_off()
+    time.sleep(0.25)
     robot.led_system.right_led.turn_on()
+    time.sleep(0.25)
     robot.led_system.right_led.turn_off()
+    time.sleep(0.25)
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
+    time.sleep(0.25)
     robot.led_system.left_led.turn_off()
     robot.led_system.right_led.turn_off()
-    return time.time(), initial - rate_of_increase
+    time.sleep(0.25)
+
+
+def camera(speed, direction, robot):
+    if direction == "clockwise":
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
+        robot.drive_system.left_motor.turn_on(-50)
+        robot.drive_system.right_motor.turn_on(50)
+        time.sleep(.07)
+    elif direction == "counterclockwise":
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
+        robot.drive_system.left_motor.turn_on(50)
+        robot.drive_system.right_motor.turn_on(-50)
+        time.sleep(.07)
+    increasing_rate_led(5, .05, robot)

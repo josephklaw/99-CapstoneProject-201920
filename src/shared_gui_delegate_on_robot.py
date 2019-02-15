@@ -9,13 +9,11 @@
 import m1_extra as m1
 import m2_extra as m2
 import m3_extra as m3
-import m3_run_this_on_robot
 
 class DelegateThatReceives(object):
     def __init__(self,robot):
         """:type  robot: rosebot.RoseBot"""
         self.robot = robot
-        self.m3 = m3_run_this_on_robot
         self.is_time_to_stop = False
     def forward(self,left_wheel_speed,right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed),
@@ -96,3 +94,6 @@ class DelegateThatReceives(object):
 
     def m3_proximity(self, initial, rate_of_increase):
         m3.increasing_rate_led(initial, rate_of_increase, self.robot)
+
+    def m3_camera(self, direction, speed):
+        m3.camera(int(speed), str(direction), self.robot)

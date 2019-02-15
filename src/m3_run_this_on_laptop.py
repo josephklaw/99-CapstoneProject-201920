@@ -130,7 +130,7 @@ def camera_frame(window,mqtt_sender):
     speed_entry.grid(row=2,column=2)
     find_object_button.grid(row=2,column=1)
 
-    find_object_button["command"]=lambda: handle_find_object_button(direction_entry, speed_entry, mqtt_sender)
+    find_object_button["command"]=lambda: handle_find_object_button(speed_entry, direction_entry, mqtt_sender)
 
     return frame
 
@@ -139,7 +139,9 @@ def handle_go_button(initial_entry, rate_of_increase_entry, mqtt_sender):
     print("Driving toward an object while the LED increases frequency as the robot gets closer", [initial_entry.get(), rate_of_increase_entry.get()])
     mqtt_sender.send_message("m3_proximity", [initial_entry.get(), rate_of_increase_entry.get()])
 
-
+def handle_find_object_button(speed_entry, direction_entry, mqtt_sender):
+    print("camera", speed_entry.get(), direction_entry.get())
+    mqtt_sender.send_message("m3_camera", [speed_entry.get(), direction_entry.get()])
 
 # # -----------------------------------------------------------------------------
 # # Calls  main  to start the ball rolling.
