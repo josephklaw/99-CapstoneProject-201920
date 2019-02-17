@@ -141,9 +141,10 @@ def handle_go_button(initial_entry, rate_of_increase_entry, mqtt_sender):
 
 def handle_find_object_button(speed_entry, direction_entry, mqtt_sender):
     print("camera", speed_entry.get(), direction_entry.get())
-    mqtt_sender.send_message("m3_camera", [speed_entry.get(), direction_entry.get()])
+    mqtt_sender.send_message("m3_camera", [speed_entry.get(), direction_entry.get(), 5, 10])
 
 # # -----------------------------------------------------------------------------
 # # Calls  main  to start the ball rolling.
 # # -----------------------------------------------------------------------------
 main()
+

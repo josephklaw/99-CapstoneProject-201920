@@ -95,5 +95,5 @@ class DelegateThatReceives(object):
     def m3_proximity(self, initial, rate_of_increase):
         m3.increasing_rate_led(initial, rate_of_increase, self.robot)
 
-    def m3_camera(self, direction, speed):
-        m3.camera(int(speed), str(direction), self.robot)
+    def m3_camera(self, speed, direction, initial, rate_of_increase):
+        m3.camera(int(speed), str(direction), int(initial), int(rate_of_increase), self.robot)

@@ -5,7 +5,6 @@ import ev3dev.ev3 as ev3
 
 def increasing_rate_led (initial, rate_of_increase, robot):
 
-    print(initial, rate_of_increase)
     robot.drive_system.go(50, 50)
     cnt = 0
     while True:
@@ -13,7 +12,7 @@ def increasing_rate_led (initial, rate_of_increase, robot):
             if cnt % float(initial) == 0:
                 led_pattern(initial, rate_of_increase, robot)
                 cnt = 0
-        elif robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= 2.6:
+        elif robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= 5:
             if cnt % float(rate_of_increase) == 0:
                 led_pattern(initial, rate_of_increase, robot)
                 cnt = 0
@@ -42,15 +41,11 @@ def led_pattern(initial, rate_of_increase, robot):
     time.sleep(0.25)
 
 
-def camera(speed, direction, robot):
-    if direction == "clockwise":
-        robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
-        robot.drive_system.left_motor.turn_on(-50)
-        robot.drive_system.right_motor.turn_on(50)
-        time.sleep(.07)
-    elif direction == "counterclockwise":
-        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
-        robot.drive_system.left_motor.turn_on(50)
-        robot.drive_system.right_motor.turn_on(-50)
-        time.sleep(.07)
-    increasing_rate_led(5, .05, robot)
+def camera(speed, direction, initial, rate_of_increase, robot):
+    p = ev3.Sensor(driver_name="pixy-lego")
+    p.mode = "SIG1"
+    if direction == "CCW":
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
+    if direction == "CW":
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
+    increasing_rate_led(initial, rate_of_increase, robot)
