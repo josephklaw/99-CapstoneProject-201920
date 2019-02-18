@@ -3,6 +3,8 @@ import time
 import rosebot
 import ev3dev.ev3 as ev3
 
+
+#Sprint 2 Functions
 def increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot):
     """:type  robot: rosebot.RoseBot"""
     robot.drive_system.go(20,20)
@@ -30,14 +32,5 @@ def spin_to_find_object(direction,speed,rate_of_beep,rate_of_beep_increase,robot
     if direction == "CW":
         robot.drive_system.spin_clockwise_until_sees_object(int(speed),pixy.value(3)*pixy.value(4))
     increasing_rate_of_beep(rate_of_beep,rate_of_beep_increase,robot)
-    #     robot.drive_system.go(-50,50)
-    #     while True:
-    #         time.sleep(0.01)
-    #         if robot.sensor_system.camera. :
-    #             break
-    # elif direction == "CW":
-    #     robot.drive_system.go(50,-50)
-    #     while True:
-    #         time.sleep(0.01)
-    #         if robot.sensor_system.camera.:
-    #             break
+
+#Sprint 3 Functions

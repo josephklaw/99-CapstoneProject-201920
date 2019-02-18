@@ -13,6 +13,7 @@ from tkinter import ttk
 import shared_gui
 
 
+
 def main():
     """
     This code, which must run on a LAPTOP:
@@ -41,24 +42,25 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame,sound_frame,proximity_frame,camera_frame = get_shared_frames(main_frame,mqtt_sender)
+    #teleop_frame, arm_frame, control_frame, drive_system_frame,sound_frame,proximity_frame,camera_frame = get_shared_frames(main_frame,mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # TODO: Implement and call get_my_frames(...)
+    find_package_frame,deliver_package_frame, steal_package = get_my_frames(main_frame,mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_frame,proximity_frame,camera_frame)
+    grid_my_frames(find_package_frame,deliver_package_frame,steal_package)
 
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
     root.mainloop()
 
-
+#PHASE 1 AND 2
 def get_shared_frames(main_frame, mqtt_sender):
     teleop = shared_gui.get_teleoperation_frame(main_frame,mqtt_sender)
     arm = shared_gui.get_arm_frame(main_frame,mqtt_sender)
@@ -78,6 +80,8 @@ def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame,sound_
     sound_frame.grid(row=1,column=1)
     proximity_frame.grid(row=2,column=1)
     camera_frame.grid(row=3,column=0)
+
+
 
 def get_myframe_proximity(window,mqtt_sender):
     # Construct the frame to return:
@@ -117,6 +121,7 @@ def get_myframe_camera(window,mqtt_sender):
     speed_entry = ttk.Entry(frame,width=8)
     find_object_button = ttk.Button(frame,text="Find Object")
 
+
     # Grid the widgets:
     frame_label.grid(row=0,column=1)
     direction_label.grid(row=1,column=0)
@@ -124,7 +129,6 @@ def get_myframe_camera(window,mqtt_sender):
     speed_label.grid(row=1,column=2)
     speed_entry.grid(row=2,column=2)
     find_object_button.grid(row=2,column=1)
-
     find_object_button["command"] = lambda: handle_spin_to_find_object(direction_entry, speed_entry, mqtt_sender)
 
     return frame
@@ -139,6 +143,154 @@ def handle_proximity(initial_beep_rate_entry,beep_rate_increase_entry,mqtt_sende
 def handle_spin_to_find_object(direction_entry,speed_entry,mqtt_sender):
     print("Spinning to find object",direction_entry,speed_entry)
     mqtt_sender.send_message("m1_camera",[direction_entry.get(),speed_entry.get(),1,2])
+
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# PHASE 3
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Frames
+# -----------------------------------------------------------------------------
+def find_package_frame(window, mqtt_sender):
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Package Finder")
+    speed_label = ttk.Label(frame,text="Speed")
+    speed_slider = ttk.LabeledScale(frame,from_=1,to=100)
+    button = ttk.Button(frame,text="Find package!")
+
+    frame_label.grid(row=0,column=0)
+    speed_label.grid(row=1,column=0)
+    speed_slider.grid(row=2,column=0)
+    button.grid(row=3,column=0)
+
+    #Lambda command
+
+    return frame
+def package_delivery_frame(window,mqtt_sender):
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Package Delivery")
+    house_choice_label = ttk.Label(frame,text="Who's house would you like to deliver to?")
+    greeting_label = ttk.Label(frame,text="Greeting:")
+    greeting_entry = ttk.Entry(frame,width=18)
+    goodbye_label = ttk.Label(frame,text="Goodbye:")
+    goodbye_entry = ttk.Entry(frame,width=18)
+    deliver_button = ttk.Button(frame,text="Deliver package!")
+
+    #Setting up the Radio Frame
+    radio_frame = ttk.Frame(frame, borderwidth=10, relief='groove')
+    house1 = ttk.Radiobutton(radio_frame, text='John',
+                             value='green')
+    house2 = ttk.Radiobutton(radio_frame, text='Joe',
+                             value='purple')
+    house3 = ttk.Radiobutton(radio_frame, text='Brad',
+                             value='orange')
+    house4 = ttk.Radiobutton(radio_frame, text='Cooper',
+                             value='blue')
+    house1.grid(row=0,column=0)
+    house2.grid(row=0, column=1)
+    house3.grid(row=0, column=2)
+    house4.grid(row=0, column=3)
+
+    #Gridding everything
+    frame_label.grid(row=0,column=1)
+    house_choice_label.grid(row=1,column=1)
+    radio_frame.grid(row=2,column=1)
+    greeting_label.grid(row=1,column=0)
+    greeting_entry.grid(row=2,column=0)
+    goodbye_label.grid(row=1,column=2)
+    goodbye_entry.grid(row=2,column=2)
+    deliver_button.grid(row=3,column=1)
+
+
+
+    #Lambda command
+
+    return frame
+
+def steal_package_frame(window,mqtt_sender):
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Package Stealer")
+    house_choice_label = ttk.Label(frame, text="Who's house would you steal from?")
+    laugh_label = ttk.Label(frame,text="Pick your evil laugh:")
+    steal_button = ttk.Button(frame,text="Steal package!")
+    # Setting up the Radio Frame for house choice
+    radio_frame = ttk.Frame(frame, borderwidth=10, relief='groove')
+    house1 = ttk.Radiobutton(radio_frame, text='John',
+                             value='green')
+    house2 = ttk.Radiobutton(radio_frame, text='Joe',
+                             value='purple')
+    house3 = ttk.Radiobutton(radio_frame, text='Brad',
+                             value='orange')
+    house4 = ttk.Radiobutton(radio_frame, text='Cooper',
+                             value='blue')
+    house1.grid(row=0, column=0)
+    house2.grid(row=0, column=1)
+    house3.grid(row=0, column=2)
+    house4.grid(row=0, column=3)
+
+    # Setting up the Radio Frame for laugh choice
+    radio_frame2 = ttk.Frame(frame, borderwidth=10, relief='groove')
+    laugh1 = ttk.Radiobutton(radio_frame2, text='Haha',
+                             value='hahahahahahahahaha')
+    laugh2 = ttk.Radiobutton(radio_frame2, text='Bwaha',
+                             value='bawahahahahahahaha')
+    laugh3 = ttk.Radiobutton(radio_frame2, text='Bwahahe',
+                             value='bwahahahehehehehehe')
+    laugh4 = ttk.Radiobutton(radio_frame2, text="Bwahaheho",
+                             value='bwahahahehehehohoho')
+    laugh1.grid(row=0, column=0)
+    laugh2.grid(row=0, column=1)
+    laugh3.grid(row=0, column=2)
+    laugh4.grid(row=0, column=3)
+
+    # Gridding everything
+    frame_label.grid(row=0, column=1)
+    house_choice_label.grid(row=1,column=0)
+    laugh_label.grid(row=1,column=2)
+    radio_frame.grid(row=2,column=0)
+    radio_frame2.grid(row=2,column=2)
+    steal_button.grid(row=2,column=1)
+
+    return frame
+
+
+
+# -----------------------------------------------------------------------------
+# Handle Functions
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
+# Get and Grid My Frames
+# -----------------------------------------------------------------------------
+def get_my_frames(main_frame, mqtt_sender):
+    find_package = find_package_frame(main_frame,mqtt_sender)
+    deliver_package = package_delivery_frame(main_frame,mqtt_sender)
+    steal_package = steal_package_frame(main_frame,mqtt_sender)
+
+    return find_package, deliver_package,steal_package
+
+def grid_my_frames(find_package_frame,deliver_package_frame,steal_package_frame):
+    find_package_frame.grid(row=0,column=0)
+    deliver_package_frame.grid(row=0,column=1)
+    steal_package_frame.grid(row=1,column=1)
+
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
