@@ -231,13 +231,13 @@ def steal_package_frame(window,mqtt_sender):
     # Setting up the Radio Frame for house choice
     radio_frame = ttk.Frame(frame, borderwidth=10, relief='groove')
     house1 = ttk.Radiobutton(radio_frame, text='John',
-                             value='green')
+                             value=3)
     house2 = ttk.Radiobutton(radio_frame, text='Joe',
-                             value='purple')
+                             value=4)
     house3 = ttk.Radiobutton(radio_frame, text='Brad',
-                             value='orange')
+                             value=5)
     house4 = ttk.Radiobutton(radio_frame, text='Cooper',
-                             value='blue')
+                             value=2)
     house1.grid(row=0, column=0)
     house2.grid(row=0, column=1)
     house3.grid(row=0, column=2)
