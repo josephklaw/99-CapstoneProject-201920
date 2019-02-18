@@ -161,17 +161,18 @@ def find_package_frame(window, mqtt_sender):
     # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="Package Finder")
     speed_label = ttk.Label(frame,text="Speed")
-    speed_slider = ttk.LabeledScale(frame,from_=1,to=100)
+    speed_entry = ttk.Entry(frame,width=8)
     button = ttk.Button(frame,text="Find package!")
 
     frame_label.grid(row=0,column=0)
     speed_label.grid(row=1,column=0)
-    speed_slider.grid(row=2,column=0)
+    speed_entry.grid(row=2,column=0)
     button.grid(row=3,column=0)
 
     #Lambda command
-
+    button["command"] = lambda: handle_find_package(speed_entry, mqtt_sender)
     return frame
+
 def package_delivery_frame(window,mqtt_sender):
     # Construct the frame to return:
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
@@ -189,17 +190,22 @@ def package_delivery_frame(window,mqtt_sender):
     #Setting up the Radio Frame
     radio_frame = ttk.Frame(frame, borderwidth=10, relief='groove')
     house1 = ttk.Radiobutton(radio_frame, text='John',
-                             value='green')
+                             value=3)
     house2 = ttk.Radiobutton(radio_frame, text='Joe',
-                             value='purple')
+                             value=4)
     house3 = ttk.Radiobutton(radio_frame, text='Brad',
-                             value='orange')
+                             value=5)
     house4 = ttk.Radiobutton(radio_frame, text='Cooper',
-                             value='blue')
+                             value=2)
     house1.grid(row=0,column=0)
     house2.grid(row=0, column=1)
     house3.grid(row=0, column=2)
     house4.grid(row=0, column=3)
+    radio_observer = tkinter.IntVar()
+    for radio in [house1, house2, house3, house4]:
+        radio['variable'] = radio_observer
+
+
 
     #Gridding everything
     frame_label.grid(row=0,column=1)
@@ -214,7 +220,7 @@ def package_delivery_frame(window,mqtt_sender):
 
 
     #Lambda command
-
+    deliver_button["command"] = lambda: handle_delivery(radio_observer,greeting_entry,goodbye_entry,mqtt_sender)
     return frame
 
 def steal_package_frame(window,mqtt_sender):
@@ -242,7 +248,9 @@ def steal_package_frame(window,mqtt_sender):
     house2.grid(row=0, column=1)
     house3.grid(row=0, column=2)
     house4.grid(row=0, column=3)
-
+    radio_observer = tkinter.IntVar()
+    for radio in [house1, house2, house3, house4]:
+        radio['variable'] = radio_observer
     # Setting up the Radio Frame for laugh choice
     radio_frame2 = ttk.Frame(frame, borderwidth=10, relief='groove')
     laugh1 = ttk.Radiobutton(radio_frame2, text='Haha',
@@ -257,6 +265,10 @@ def steal_package_frame(window,mqtt_sender):
     laugh2.grid(row=0, column=1)
     laugh3.grid(row=0, column=2)
     laugh4.grid(row=0, column=3)
+    radio_observer2 = tkinter.StringVar()
+    for radio in [laugh1, laugh2, laugh3, laugh4]:
+        radio['variable'] = radio_observer2
+
 
     # Gridding everything
     frame_label.grid(row=0, column=1)
@@ -266,6 +278,8 @@ def steal_package_frame(window,mqtt_sender):
     radio_frame2.grid(row=2,column=2)
     steal_button.grid(row=2,column=1)
 
+    steal_button["command"] = lambda: handle_theft(radio_observer, radio_observer2, mqtt_sender)
+
     return frame
 
 
@@ -273,6 +287,17 @@ def steal_package_frame(window,mqtt_sender):
 # -----------------------------------------------------------------------------
 # Handle Functions
 # -----------------------------------------------------------------------------
+def handle_find_package(speed_entry,mqtt_sender):
+    print("Finding package",speed_entry.get())
+    #mqtt_sender.send_message("m1_find_package",[speed_entry.get()])
+
+def handle_delivery(color,greeting_entry,goodbye_entry,mqtt_sender):
+    print("Delivering package!",color.get(),greeting_entry.get,goodbye_entry.get())
+    #mqtt_sender.send_message["m1_full_delivery",[color.get(),greeting_entry.get(),goodbye_entry.get()]]
+
+def handle_theft(color,laugh_entry,mqtt_sender):
+    print("Stealing package!",color.get(),laugh_entry.get())
+    #mqtt_sender.send_message["m1_theft",[color.get(),laugh_entry.get()]
 
 
 # -----------------------------------------------------------------------------
@@ -287,8 +312,8 @@ def get_my_frames(main_frame, mqtt_sender):
 
 def grid_my_frames(find_package_frame,deliver_package_frame,steal_package_frame):
     find_package_frame.grid(row=0,column=0)
-    deliver_package_frame.grid(row=0,column=1)
-    steal_package_frame.grid(row=1,column=1)
+    deliver_package_frame.grid(row=1,column=0)
+    steal_package_frame.grid(row=2,column=0)
 
 
 # -----------------------------------------------------------------------------

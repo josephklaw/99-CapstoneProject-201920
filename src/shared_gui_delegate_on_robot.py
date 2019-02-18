@@ -108,3 +108,5 @@ class DelegateThatReceives(object):
         m1.spin_to_find_package(speed,self.robot)
     def m1_full_delivery(self,color,greeting,goodbye):
         m1.full_delivery(color,greeting,goodbye,self.robot)
+    def m1_theft(self,color,laugh):
+        m1.steal_package(color,laugh,self.robot)
