@@ -53,7 +53,22 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
+    #grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,sound_frame,proximity_frame,camera_frame)
     grid_my_frames(find_package_frame,deliver_package_frame,steal_package)
+
+    # -------------------------------------------------------------------------
+    # Using the keyboard to move the robot
+    # -------------------------------------------------------------------------
+    root.bind_all('<Key-a>', lambda event: go_left(mqtt_sender))
+    root.bind_all('<Key-d>', lambda event: go_right(mqtt_sender))
+    root.bind_all('<Key-s>', lambda event: go_backward(mqtt_sender))
+    root.bind_all('<Key-w>', lambda event: go_forward(mqtt_sender))
+    root.bind_all('<Key-c>', lambda event: calibrate_claw(mqtt_sender))
+    root.bind_all('<Key-e>', lambda event: raise_claw(mqtt_sender))
+    root.bind_all('<Key-q>', lambda event: lower_claw(mqtt_sender))
+    root.bind_all('<Key-space>', lambda event: stop_robot(mqtt_sender))
+
+
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -171,6 +186,9 @@ def find_package_frame(window, mqtt_sender):
 
     #Lambda command
     button["command"] = lambda: handle_find_package(speed_entry, mqtt_sender)
+
+
+
     return frame
 
 def package_delivery_frame(window,mqtt_sender):
@@ -216,7 +234,6 @@ def package_delivery_frame(window,mqtt_sender):
     goodbye_label.grid(row=1,column=2)
     goodbye_entry.grid(row=2,column=2)
     deliver_button.grid(row=3,column=1)
-
 
 
     #Lambda command
@@ -289,17 +306,42 @@ def steal_package_frame(window,mqtt_sender):
 # -----------------------------------------------------------------------------
 def handle_find_package(speed_entry,mqtt_sender):
     print("Finding package",speed_entry.get())
-    #mqtt_sender.send_message("m1_find_package",[speed_entry.get()])
+    mqtt_sender.send_message("m1_find_package",[speed_entry.get()])
 
 def handle_delivery(color,greeting_entry,goodbye_entry,mqtt_sender):
     print("Delivering package!",color.get(),greeting_entry.get,goodbye_entry.get())
-    #mqtt_sender.send_message["m1_full_delivery",[color.get(),greeting_entry.get(),goodbye_entry.get()]]
+    mqtt_sender.send_message("m1_full_delivery",[color.get(),greeting_entry.get(),goodbye_entry.get()])
 
 def handle_theft(color,laugh_entry,mqtt_sender):
     print("Stealing package!",color.get(),laugh_entry.get())
-    #mqtt_sender.send_message["m1_theft",[color.get(),laugh_entry.get()]
+    mqtt_sender.send_message("m1_theft",[color.get(),laugh_entry.get()])
 
+def go_forward(mqtt_sender):
+    print("forward")
+    mqtt_sender.send_message("forward",[50,50])
 
+def go_backward(mqtt_sender):
+    print("backward")
+    mqtt_sender.send_message("forward",[-50,-50])
+
+def go_right(mqtt_sender):
+    print("right")
+    mqtt_sender.send_message("forward",[50,1])
+def go_left(mqtt_sender):
+    print("left")
+    mqtt_sender.send_message("forward",[1,50])
+def raise_claw(mqtt_sender):
+    print("Raise claw!")
+    mqtt_sender.send_message("raise_arm")
+def lower_claw(mqtt_sender):
+    print("Lower Arm")
+    mqtt_sender.send_message("lower_arm")
+def stop_robot(mqtt_sender):
+    print("Stop")
+    mqtt_sender.send_message("stop")
+def calibrate_claw(mqtt_sender):
+    print("Calibrate Arm")
+    mqtt_sender.send_message("calibrate_arm")
 # -----------------------------------------------------------------------------
 # Get and Grid My Frames
 # -----------------------------------------------------------------------------
