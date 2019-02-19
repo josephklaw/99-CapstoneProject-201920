@@ -63,7 +63,7 @@ def find_house(color,robot):
     """:type  robot: rosebot.RoseBot"""
     robot.drive_system.go(50,50)
     while True:
-        #If the color sensor detects green
+        #If the color sensor detects the color corresponding to the house
         if robot.sensor_system.color_sensor.get_color() == int(color):
             # If the color is green, the robot turns left
             if int(color) == 3:
