@@ -110,3 +110,16 @@ class DelegateThatReceives(object):
         m1.full_delivery(color,greeting,goodbye,self.robot)
     def m1_theft(self,color,laugh):
         m1.steal_package(color,laugh,self.robot)
+
+
+#Lucas' Sprint 3 Functions
+
+    def m2_color(self, color):
+        m2.color_finder(color, self.robot)
+
+    def m2_find_object(self, speed):
+        m2.find_object(speed, self.robot)
+
+#    def m2_line_following(self):
+#        m2.line_following(self.robot)
+

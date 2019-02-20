@@ -1,4 +1,5 @@
 import ev3dev.ev3 as ev3
+import rosebot as robot
 
 def increasing_tone(initial_tone, tone_rate_increase, speed, robot):
     """:type  robot: rosebot.RoseBot"""
@@ -26,3 +27,34 @@ def point_to_object(direction, speed, initial_tone, tone_rate_increase, robot):
     if direction == "CW":
         robot.drive_system.spin_clockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
     increasing_tone(initial_tone, tone_rate_increase, speed, robot)
+
+
+
+
+
+#Sprint 3 Functions
+
+
+def color_finder(color, robot):
+    """:type  robot: rosebot.RoseBot"""
+    robot.drive_system.go(75, 75)
+    while True:
+        if robot.sensor_system.color_sensor.get_color() == int(color):
+            robot.drive_system.stop()
+            robot.sound_system.speech_maker.speak("I found the color " + str(robot.sensor_system.color_sensor.get_color()))
+            break
+
+def find_object(speed, robot):
+    """:type  robot: rosebot.RoseBot"""
+    p = ev3.Sensor(driver_name="pixy-lego")
+    p.mode = "SIG1"
+    robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
+    robot.drive_system.go(speed, speed)
+    while True:
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 1:
+            break
+    robot.drive_system.stop()
+    robot.arm_and_claw.raise_arm()
+
+
+#def line_following(robot):
