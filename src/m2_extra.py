@@ -1,5 +1,6 @@
 import ev3dev.ev3 as ev3
 import rosebot as robot
+import time
 
 def increasing_tone(initial_tone, tone_rate_increase, speed, robot):
     """:type  robot: rosebot.RoseBot"""
@@ -61,7 +62,7 @@ def find_object(speed, robot):
 
 def line_following(robot):
     """:type  robot: rosebot.RoseBot"""
-    robot.drive_system.go(50, 50)
+    robot.drive_system.go(100, 100)
     while True:
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(50,50)
@@ -70,15 +71,22 @@ def line_following(robot):
             robot.drive_system.right_motor.turn_on(50)
             robot.drive_system.left_motor.turn_off()
             robot.drive_system.left_motor.turn_on(100)
+            while True:
+                if robot.sensor_system.color_sensor.get_color()!=4:
+                    break
         if robot.sensor_system.color_sensor.get_color() == 5:
             robot.drive_system.right_motor.turn_off()
             robot.drive_system.right_motor.turn_on(100)
             robot.drive_system.left_motor.turn_off()
             robot.drive_system.left_motor.turn_on(50)
+            while True:
+                if robot.sensor_system.color_sensor.get_color() != 5:
+                    break
         if robot.sensor_system.color_sensor.get_color() == 6:
             robot.drive_system.stop()
+            robot.arm_and_claw.lower_arm()
             break
-    robot.arm_and_claw.lower_arm()
+        time.sleep(0.01)
             # # - 1: Black
             # - 2: Blue
             # - 3: Green
