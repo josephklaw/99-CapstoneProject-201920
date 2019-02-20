@@ -49,7 +49,7 @@ def find_object(speed, robot):
     """:type  robot: rosebot.RoseBot"""
     p = ev3.Sensor(driver_name="pixy-lego")
     p.mode = "SIG1"
-    robot.drive_system.go_straight_for_seconds(2, speed)
+    robot.drive_system.go_straight_for_seconds(3, speed)
     robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), p.value(3) * p.value(4))
     robot.drive_system.go(speed, speed)
     while True:
@@ -66,21 +66,19 @@ def line_following(robot):
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(50,50)
         if robot.sensor_system.color_sensor.get_color() == 4:
-            robot.drive_system.right_motor.turn_on(10)
-            robot.drive_system.left_motor.turn_on(50)
-        if robot.sensor_system.color_sensor.get_color() == 5:
+            robot.drive_system.right_motor.turn_off()
             robot.drive_system.right_motor.turn_on(50)
-            robot.drive_system.left_motor.turn_on(10)
+            robot.drive_system.left_motor.turn_off()
+            robot.drive_system.left_motor.turn_on(100)
+        if robot.sensor_system.color_sensor.get_color() == 5:
+            robot.drive_system.right_motor.turn_off()
+            robot.drive_system.right_motor.turn_on(100)
+            robot.drive_system.left_motor.turn_off()
+            robot.drive_system.left_motor.turn_on(50)
         if robot.sensor_system.color_sensor.get_color() == 6:
             robot.drive_system.stop()
             break
     robot.arm_and_claw.lower_arm()
-
-
-
-
-
-
             # # - 1: Black
             # - 2: Blue
             # - 3: Green
