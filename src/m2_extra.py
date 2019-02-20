@@ -62,11 +62,11 @@ def line_following(robot):
     robot.drive_system.go(50, 50)
     while True:
         if robot.sensor_system.color_sensor.get_color() == 1:
-            robot.drive_system.go(50,50)
+            robot.drive_system.go(30,30)
         if robot.sensor_system.color_sensor.get_color() == 4:
-            robot.drive_system.go(50, 10)
+            robot.drive_system.go(30, 10)
         if robot.sensor_system.color_sensor.get_color() == 5:
-            robot.drive_system.go(10, 50)
+            robot.drive_system.go(10, 30)
         if robot.sensor_system.color_sensor.get_color() == 6:
             robot.drive_system.stop()
             break
