@@ -62,9 +62,11 @@ def find_object(speed, robot):
 
 def line_following(robot):
     """:type  robot: rosebot.RoseBot"""
-    robot.drive_system.go(100, 100)
+    robot.drive_system.go(50, 50)
     while True:
         if robot.sensor_system.color_sensor.get_color() == 1:
+            robot.drive_system.right_motor.turn_off()
+            robot.drive_system.left_motor.turn_off()
             robot.drive_system.go(50,50)
 
         if robot.sensor_system.color_sensor.get_color() == 4:
