@@ -66,28 +66,25 @@ def line_following(robot):
     while True:
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(50,50)
+
         if robot.sensor_system.color_sensor.get_color() == 4:
+            robot.drive_system.right_motor.turn_off()
+            robot.drive_system.right_motor.turn_on(-20)
+            robot.drive_system.left_motor.turn_off()
+            robot.drive_system.left_motor.turn_on(50)
+
+        if robot.sensor_system.color_sensor.get_color() == 5:
             robot.drive_system.right_motor.turn_off()
             robot.drive_system.right_motor.turn_on(50)
             robot.drive_system.left_motor.turn_off()
-            robot.drive_system.left_motor.turn_on(100)
-            while True:
-                if robot.sensor_system.color_sensor.get_color()!=4:
-                    break
-        if robot.sensor_system.color_sensor.get_color() == 5:
-            robot.drive_system.right_motor.turn_off()
-            robot.drive_system.right_motor.turn_on(100)
-            robot.drive_system.left_motor.turn_off()
-            robot.drive_system.left_motor.turn_on(50)
-            while True:
-                if robot.sensor_system.color_sensor.get_color() != 5:
-                    break
+            robot.drive_system.left_motor.turn_on(-20)
+
         if robot.sensor_system.color_sensor.get_color() == 6:
             robot.drive_system.stop()
-            robot.arm_and_claw.lower_arm()
+            robot.arm_and_claw.move_arm_to_position(0)
             break
         time.sleep(0.01)
-            # # - 1: Black
+        # # - 1: Black
             # - 2: Blue
             # - 3: Green
             # - 4: Yellow
