@@ -41,7 +41,7 @@ def color_finder(color, robot):
     while True:
         if robot.sensor_system.color_sensor.get_color() == int(color):
             robot.drive_system.stop()
-            robot.sound_system.speech_maker.speak("I found the color " + str(robot.sensor_system.color_sensor.get_color()))
+            robot.sound_system.speech_maker.speak("I found the color")
             break
 
 def find_object(speed, robot):
@@ -57,4 +57,30 @@ def find_object(speed, robot):
     robot.arm_and_claw.raise_arm()
 
 
-#def line_following(robot):
+def line_following(robot):
+    """:type  robot: rosebot.RoseBot"""
+    robot.drive_system.go(50, 50)
+    while True:
+        if robot.sensor_system.color_sensor.get_color() == 1:
+            robot.drive_system.go(50,50)
+        if robot.sensor_system.color_sensor.get_color() == 4:
+            robot.drive_system.go(50, 10)
+        if robot.sensor_system.color_sensor.get_color() == 5:
+            robot.drive_system.go(10, 50)
+        if robot.sensor_system.color_sensor.get_color() == 6:
+            robot.drive_system.stop()
+            break
+    robot.arm_and_claw.lower_arm()
+
+
+
+
+
+
+            # # - 1: Black
+            # - 2: Blue
+            # - 3: Green
+            # - 4: Yellow
+            # - 5: Red
+            # - 6: White
+            # - 7: Brown

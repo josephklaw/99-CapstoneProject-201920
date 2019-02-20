@@ -184,7 +184,7 @@ def sprint_3_frame(window, mqtt_sender):
 
     color_button["command"]=lambda: handle_color_button(color_entry, mqtt_sender)
     find_object_button["command"]=lambda: handle_find_object_button2(speed_entry ,mqtt_sender)
-#    line_following_button["command"]=lambda:
+    line_following_button["command"]=lambda: handle_line_following_button(mqtt_sender)
 
     return frame
 
@@ -216,8 +216,9 @@ def handle_find_object_button2(speed, mqtt_sender):
     print("Finds the object", [speed.get()])
     mqtt_sender.send_message("m2_find_object", [speed.get()])
 
-def handle_line_following_button():
-    print("Follows the line", )
+def handle_line_following_button(mqtt_sender):
+    print("Follows the line")
+    mqtt_sender.send_message("m2_line_following")
 
 
 main()

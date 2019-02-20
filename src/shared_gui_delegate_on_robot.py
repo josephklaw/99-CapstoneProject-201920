@@ -120,6 +120,6 @@ class DelegateThatReceives(object):
     def m2_find_object(self, speed):
         m2.find_object(speed, self.robot)
 
-#    def m2_line_following(self):
-#        m2.line_following(self.robot)
+    def m2_line_following(self):
+        m2.line_following(self.robot)
 
