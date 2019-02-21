@@ -67,6 +67,9 @@ def main():
     root.bind_all('<Key-e>', lambda event: raise_claw(mqtt_sender))
     root.bind_all('<Key-q>', lambda event: lower_claw(mqtt_sender))
     root.bind_all('<Key-space>', lambda event: stop_robot(mqtt_sender))
+    root.bind_all('<Key-h>', lambda event: say_hello(mqtt_sender))
+    root.bind_all('<Key-g>', lambda event: say_goodbye(mqtt_sender))
+    root.bind_all('<Key-l>', lambda event: laugh(mqtt_sender))
 
 
 
@@ -342,6 +345,15 @@ def stop_robot(mqtt_sender):
 def calibrate_claw(mqtt_sender):
     print("Calibrate Arm")
     mqtt_sender.send_message("calibrate_arm")
+def say_hello(mqtt_sender):
+    print("Say Hello")
+    mqtt_sender.send_message("sound_speak",["Hello"])
+def say_goodbye(mqtt_sender):
+    print("Say goodbye")
+    mqtt_sender.send_message("sound_speak",["Goodbye"])
+def laugh(mqtt_sender):
+    print("Laugh")
+    mqtt_sender.send_message("sound_speak",["Hahahahahahahahaha"])
 # -----------------------------------------------------------------------------
 # Get and Grid My Frames
 # -----------------------------------------------------------------------------
